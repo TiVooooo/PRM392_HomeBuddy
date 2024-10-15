@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\HomeBuddy.API.props" />
+</Project>
