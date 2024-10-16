@@ -11,6 +11,7 @@ namespace HomeBuddy.Service.Services
     public interface IHelperService
     {
         public Task<IBusinessResult> GetAll();
+        public Task<IBusinessResult> GetById(int id);
     }
     public class HelperService : IHelperService
     {
@@ -26,6 +27,13 @@ namespace HomeBuddy.Service.Services
             var helpers = await _unitOfWork.HelperRepository.GetAllAsync();
 
             return new BusinessResult(200, "Get all helpers!", helpers);
+        }
+
+        public async Task<IBusinessResult> GetById(int id)
+        {
+            var helper = await _unitOfWork.HelperRepository.GetByIdAsync(id);
+
+            return new BusinessResult(200, "Get helper!", helper);
         }
     }
 }

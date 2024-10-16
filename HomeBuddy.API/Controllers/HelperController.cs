@@ -22,6 +22,14 @@ namespace HomeBuddy.API.Controllers
         {
             var result = await _helpService.GetAll();
             return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }        
+        
+        [AllowAnonymous]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            var result = await _helpService.GetById(id);
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
         }
     }
 }
