@@ -1,0 +1,27 @@
+﻿using HomeBuddy.Service.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.Design;
+
+namespace HomeBuddy.API.Controllers
+{
+    [ApiController]
+    [Route("Helper")]
+    public class HelperController : ControllerBase
+    {
+        private readonly IHelperService _helpService;
+
+        public HelperController(IHelperService helpService)
+        {
+            _helpService = helpService;
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _helpService.GetAll();
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
+    }
+}

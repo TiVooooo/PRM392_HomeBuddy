@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudySpace.Service.Base
+namespace HomeBuddy.Service.Base
 {
     public class BusinessResult : IBusinessResult
     {
