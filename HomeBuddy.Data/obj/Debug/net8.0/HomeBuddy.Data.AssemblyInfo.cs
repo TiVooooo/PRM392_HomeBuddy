@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HomeBuddy.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ae25ef331e6e971fcbc4c5e0dd53f385f54d75db")]
 [assembly: System.Reflection.AssemblyProductAttribute("HomeBuddy.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HomeBuddy.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
