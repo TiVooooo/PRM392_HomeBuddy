@@ -12,6 +12,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IHelperService, HelperService>();
 builder.Services.AddScoped<UnitOfWork>();
+builder.Services.AddScoped<IServiceService,ServiceService>();
 
 builder.Services.AddDbContext<PRM392_HomeBuddyContext>(opt =>
 {

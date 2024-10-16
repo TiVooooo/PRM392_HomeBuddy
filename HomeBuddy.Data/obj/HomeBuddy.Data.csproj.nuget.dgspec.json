@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj": {}
+    "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj": {}
   },
   "projects": {
-    "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj": {
+    "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj",
+        "projectUniqueName": "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj",
         "projectName": "HomeBuddy.Data",
-        "projectPath": "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.Data\\obj\\",
+        "projectPath": "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj",
+        "packagesPath": "C:\\Users\\Tienvo\\.nuget\\packages\\",
+        "outputPath": "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Data\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Tienvo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -113,7 +109,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

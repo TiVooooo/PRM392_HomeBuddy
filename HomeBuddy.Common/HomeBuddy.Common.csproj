@@ -7,9 +7,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\HomeBuddy.Common\HomeBuddy.Common.csproj" />
-    <ProjectReference Include="..\HomeBuddy.Data\HomeBuddy.Data.csproj" />
-  </ItemGroup>
-
 </Project>
