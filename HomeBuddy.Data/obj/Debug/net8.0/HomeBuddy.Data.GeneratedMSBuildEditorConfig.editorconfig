@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = HomeBuddy.Data
-build_property.ProjectDir = C:\Users\Tienvo\source\repos\PRM392_HomeBuddy\HomeBuddy.Data\
+build_property.ProjectDir = D:\FPT\Term 8\PRM392\Projects\GroupProject\PRM392_HomeBuddy\HomeBuddy.Data\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

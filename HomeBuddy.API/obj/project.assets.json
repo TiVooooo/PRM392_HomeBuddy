@@ -428,19 +428,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Tienvo\\.nuget\\packages\\": {}
+    "C:\\Users\\ADMIN\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Tienvo\\source\\repos\\PRM392_HomeBuddy\\HomeBuddy.API\\HomeBuddy.API.csproj",
+      "projectUniqueName": "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.API\\HomeBuddy.API.csproj",
       "projectName": "HomeBuddy.API",
-      "projectPath": "C:\\Users\\Tienvo\\source\\repos\\PRM392_HomeBuddy\\HomeBuddy.API\\HomeBuddy.API.csproj",
-      "packagesPath": "C:\\Users\\Tienvo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Tienvo\\source\\repos\\PRM392_HomeBuddy\\HomeBuddy.API\\obj\\",
+      "projectPath": "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.API\\HomeBuddy.API.csproj",
+      "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+      "outputPath": "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.API\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Tienvo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -496,7 +501,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
