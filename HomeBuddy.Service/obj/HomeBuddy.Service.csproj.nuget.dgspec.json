@@ -1,24 +1,81 @@
 {
   "format": 1,
   "restore": {
-    "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.Service\\HomeBuddy.Service.csproj": {}
+    "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Service\\HomeBuddy.Service.csproj": {}
   },
   "projects": {
-    "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj": {
+    "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Common\\HomeBuddy.Common.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj",
-        "projectName": "HomeBuddy.Data",
-        "projectPath": "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.Data\\obj\\",
+        "projectUniqueName": "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Common\\HomeBuddy.Common.csproj",
+        "projectName": "HomeBuddy.Common",
+        "projectPath": "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Common\\HomeBuddy.Common.csproj",
+        "packagesPath": "C:\\Users\\Tienvo\\.nuget\\packages\\",
+        "outputPath": "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Common\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Tienvo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj",
+        "projectName": "HomeBuddy.Data",
+        "projectPath": "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj",
+        "packagesPath": "C:\\Users\\Tienvo\\.nuget\\packages\\",
+        "outputPath": "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Tienvo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -113,25 +170,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.Service\\HomeBuddy.Service.csproj": {
+    "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Service\\HomeBuddy.Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.Service\\HomeBuddy.Service.csproj",
+        "projectUniqueName": "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Service\\HomeBuddy.Service.csproj",
         "projectName": "HomeBuddy.Service",
-        "projectPath": "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.Service\\HomeBuddy.Service.csproj",
-        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
-        "outputPath": "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.Service\\obj\\",
+        "projectPath": "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Service\\HomeBuddy.Service.csproj",
+        "packagesPath": "C:\\Users\\Tienvo\\.nuget\\packages\\",
+        "outputPath": "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Service\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Tienvo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -146,8 +199,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj": {
-                "projectPath": "D:\\FPT\\Term 8\\PRM392\\Projects\\GroupProject\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj"
+              "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Common\\HomeBuddy.Common.csproj": {
+                "projectPath": "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Common\\HomeBuddy.Common.csproj"
+              },
+              "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj": {
+                "projectPath": "T:\\PRM392\\HomeBuddy\\PRM392_HomeBuddy\\HomeBuddy.Data\\HomeBuddy.Data.csproj"
               }
             }
           }
@@ -182,7 +238,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
