@@ -32,9 +32,16 @@ namespace HomeBuddy.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] UserDTO request)
+        public async Task<IActionResult> Create([FromBody] CreateUserDTO request)
         {
             var result = await _userService.Create(request);
+
+            return Ok(result);
+        }
+        [HttpPost("create-helper")]
+        public async Task<IActionResult> CreateHelper([FromBody] CreateHelperDTO request)
+        {
+            var result = await _userService.CreateHelper(request);
 
             return Ok(result);
         }
@@ -51,6 +58,13 @@ namespace HomeBuddy.API.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _userService.Delete(id);
+
+            return Ok(result);
+        }
+        [HttpPut("edit-avatar/{id}")]
+        public async Task<IActionResult> EditAvatar(int id, IFormFile avatar)
+        {
+            var result = await _userService.EditAvatar(id, avatar);
 
             return Ok(result);
         }

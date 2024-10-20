@@ -30,5 +30,11 @@ namespace HomeBuddy.Service.Base
             Message = message;
             Data = data;
         }
+        public BusinessResult(object data)
+        {
+            Status = 1;
+            Message = "Action successful";
+            Data = data;
+        }
     }
 }

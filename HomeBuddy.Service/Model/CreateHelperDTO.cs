@@ -1,7 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -9,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HomeBuddy.Service.Model
 {
-    public class UserDTO
+    public class CreateHelperDTO
     {
         public string Email { get; set; }
 
@@ -22,10 +20,7 @@ namespace HomeBuddy.Service.Model
         public bool Gender { get; set; }
 
         public string Address { get; set; }
-
-        public string Avatar { get; set; }
-
-        public string Role { get; set; }
+        public string Skill { get; set; }
 
         [JsonIgnore]
         public DateTime CreatedAt { get; set; } = DateTime.Now;
