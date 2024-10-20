@@ -21,6 +21,7 @@ builder.Services.AddScoped<IHelperService, HelperService>();
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddScoped<IServiceService,ServiceService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 
 builder.Services.AddDbContext<PRM392_HomeBuddyContext>(opt =>
