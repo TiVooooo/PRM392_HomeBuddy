@@ -27,30 +27,13 @@ namespace HomeBuddy.Service.Services
     public class UserService : IUserService
     {
         private readonly UnitOfWork _unitOfWork;
-        private readonly StorageClient _storageClient;
-        private readonly string _bucketName = "prm391-homebuddy.appspot.com";
-        public UserService(UnitOfWork unitOfWork, StorageClient storageClient)
+        private readonly IFirebaseService _firebaseService;
+        public UserService(UnitOfWork unitOfWork, IFirebaseService firebaseService)
         {
-            _unitOfWork = unitOfWork;
-            _storageClient = storageClient;
+            _unitOfWork = unitOfWork;            _firebaseService = firebaseService;
+
         }
 
-        private async Task<string> UploadAvatarToFirebaseStorage(IFormFile avatar)
-        {
-            string fileName = $"{Guid.NewGuid()}_{avatar.FileName}";
-
-            // Đọc file upload từ IFormFile vào MemoryStream
-            using (var memoryStream = new MemoryStream())
-            {
-                avatar.CopyTo(memoryStream);
-                memoryStream.Position = 0;
-
-                
-                await _storageClient.UploadObjectAsync(_bucketName, fileName, avatar.ContentType, memoryStream);
-            }
-
-            return $"https://firebasestorage.googleapis.com/v0/b/{_bucketName}/o/{fileName}?alt=media";
-        }
         public async Task<IBusinessResult> GetAll()
         {
             var users = await _unitOfWork.UserRepository.GetAllAsync();
@@ -133,8 +116,10 @@ namespace HomeBuddy.Service.Services
         {
             var checkedUser = await _unitOfWork.UserRepository.GetByIdAsync(id);
             if (checkedUser == null) return new BusinessResult(Const.FAIL_READ, Const.FAIL_READ_MSG);
-            var avatarUrl = await UploadAvatarToFirebaseStorage(avatar);
+
+            var avatarUrl = await _firebaseService.UploadImageToFirebaseAsync(avatar, "avatars");
             checkedUser.Avatar = avatarUrl;
+
             await _unitOfWork.UserRepository.UpdateAsync(checkedUser);
             return new BusinessResult(Const.SUCCESS_UDATE, "Avatar updated successfully");
         }

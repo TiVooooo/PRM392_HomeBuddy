@@ -3,11 +3,11 @@ using FirebaseAdmin;
 using FirebaseAdmin.Messaging;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
-using HomeBuddy.API.Configurations.FireBase;
 using HomeBuddy.API.Configurations.FirebaseCloudMessaging;
 using HomeBuddy.API.Configurations.JWT;
 using HomeBuddy.Data.Models;
 using HomeBuddy.Data.UnitOfWork;
+using HomeBuddy.Service.Model;
 using HomeBuddy.Service.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +26,7 @@ builder.Services.AddScoped<IServiceService,ServiceService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
+builder.Services.AddScoped<IFirebaseService, FirebaseService>();
 
 builder.Services.AddDbContext<PRM392_HomeBuddyContext>(opt =>
 {
@@ -63,14 +64,9 @@ FirebaseApp.Create(new AppOptions()
 builder.Services.AddSingleton(FirebaseMessaging.DefaultInstance);
 
 
-// Khởi tạo Firebase và StorageClient từ FireBaseStorage
-FireBaseStorage.InitializeFirebase(builder.Configuration);
-var storageClient = FireBaseStorage.CreateStorageClient(builder.Configuration);
 
-// Đăng ký storageClient làm singleton service
-builder.Services.AddSingleton(storageClient);
+builder.Services.Configure<FireBaseConfigurationModel>(builder.Configuration.GetSection("Firebase"));
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
