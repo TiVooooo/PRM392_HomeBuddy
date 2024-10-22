@@ -1,14 +1,17 @@
 ﻿using Azure;
 using FirebaseAdmin;
+using FirebaseAdmin.Messaging;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
 using HomeBuddy.API.Configurations.FireBase;
+using HomeBuddy.API.Configurations.FirebaseCloudMessaging;
 using HomeBuddy.API.Configurations.JWT;
 using HomeBuddy.Data.Models;
 using HomeBuddy.Data.UnitOfWork;
 using HomeBuddy.Service.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +31,38 @@ builder.Services.AddDbContext<PRM392_HomeBuddyContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+
+
+var cloudMessagingConfigSection = builder.Configuration.GetSection("CloudMessaging");
+var cloudMessagingConfig = cloudMessagingConfigSection.Get<CloudMessagingConfiguration>();
+
+Console.WriteLine(cloudMessagingConfig.PrivateKey);
+var jsonCredential = JsonConvert.SerializeObject(new
+{
+    type = cloudMessagingConfig.Type,
+    project_id = cloudMessagingConfig.ProjectId,
+    private_key_id = cloudMessagingConfig.PrivateKeyId,
+    private_key = cloudMessagingConfig.PrivateKey,
+    client_email = cloudMessagingConfig.ClientEmail,
+    client_id = cloudMessagingConfig.ClientId,
+    auth_uri = cloudMessagingConfig.AuthUri,
+    token_uri = cloudMessagingConfig.TokenUri,
+    auth_provider_x509_cert_url = cloudMessagingConfig.AuthProviderX509CertUrl,
+    client_x509_cert_url = cloudMessagingConfig.ClientX509CertUrl,
+    universe_domain = cloudMessagingConfig.UniverseDomain
+});
+
+FirebaseApp.Create(new AppOptions()
+{
+    Credential = GoogleCredential.FromJson(jsonCredential)
+});
+
+
+
+builder.Services.AddSingleton(FirebaseMessaging.DefaultInstance);
+
+
 // Khởi tạo Firebase và StorageClient từ FireBaseStorage
 FireBaseStorage.InitializeFirebase(builder.Configuration);
 var storageClient = FireBaseStorage.CreateStorageClient(builder.Configuration);
