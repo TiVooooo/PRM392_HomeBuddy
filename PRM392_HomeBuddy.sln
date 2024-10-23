@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeBuddy.Service", "HomeBu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeBuddy.API", "HomeBuddy.API\HomeBuddy.API.csproj", "{303C491E-E955-4F0A-9636-92239E16AD59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomeBuddy.Common", "HomeBuddy.Common\HomeBuddy.Common.csproj", "{6E6C948C-AF5E-4F86-89EC-89435E78AE9D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomeBuddy.Common", "HomeBuddy.Common\HomeBuddy.Common.csproj", "{6E6C948C-AF5E-4F86-89EC-89435E78AE9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

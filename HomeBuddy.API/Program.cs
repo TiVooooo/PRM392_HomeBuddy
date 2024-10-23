@@ -3,6 +3,7 @@ using FirebaseAdmin;
 using FirebaseAdmin.Messaging;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Storage.V1;
+using HomeBuddy.API.Configurations.ChatHub;
 using HomeBuddy.API.Configurations.FirebaseCloudMessaging;
 using HomeBuddy.API.Configurations.JWT;
 using HomeBuddy.Data.Models;
@@ -12,11 +13,12 @@ using HomeBuddy.Service.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddSignalR();
 builder.Services.AddControllers();
 JwtConfiguration.ConfigureJwt(builder.Services, builder.Configuration);
 
@@ -27,12 +29,13 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IFirebaseService, FirebaseService>();
+builder.Services.AddScoped<IChatService, ChatService>();
+builder.Services.AddScoped<IMessageService, MessageService>();
 
 builder.Services.AddDbContext<PRM392_HomeBuddyContext>(opt =>
 {
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-
 
 
 var cloudMessagingConfigSection = builder.Configuration.GetSection("CloudMessaging");
@@ -97,4 +100,5 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapHub<ChatHub>("/chatHub");
 app.Run();
