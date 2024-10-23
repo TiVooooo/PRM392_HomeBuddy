@@ -1,5 +1,6 @@
 ﻿using HomeBuddy.Data.Base;
 using HomeBuddy.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,11 @@ namespace HomeBuddy.Data.Repository
         public ChatRepository(PRM392_HomeBuddyContext context)
         {
             _context = context;
+        }
+        public IQueryable<Chat> GetAllChatWithMessages()
+        {
+            return _context.Chats
+                .Include(c=>c.Messages);
         }
     }
 }
