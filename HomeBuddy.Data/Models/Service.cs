@@ -19,6 +19,8 @@ public partial class Service
 
     public int HelperId { get; set; }
 
+    public string Image { get; set; }
+
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 
     public virtual Helper Helper { get; set; }

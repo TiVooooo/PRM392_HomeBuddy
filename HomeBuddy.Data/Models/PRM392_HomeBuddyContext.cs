@@ -34,6 +34,7 @@ public partial class PRM392_HomeBuddyContext : DbContext
 
 
 
+
     public virtual DbSet<Booking> Bookings { get; set; }
 
     public virtual DbSet<Cart> Carts { get; set; }
@@ -66,6 +67,7 @@ public partial class PRM392_HomeBuddyContext : DbContext
             entity.Property(e => e.Phone)
                 .IsRequired()
                 .HasMaxLength(20);
+            entity.Property(e => e.ServiceDate).HasColumnType("datetime");
 
             entity.HasOne(d => d.Cart).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.CartId)
