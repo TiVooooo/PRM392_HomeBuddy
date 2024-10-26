@@ -19,8 +19,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddSignalR();
-builder.Services.AddControllers();
-JwtConfiguration.ConfigureJwt(builder.Services, builder.Configuration);
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles; // Ignores cycles without adding $id or $ref
+        options.JsonSerializerOptions.WriteIndented = true; // Optional: pretty-print JSON output for readability
+    });
 
 builder.Services.AddScoped<IHelperService, HelperService>();
 builder.Services.AddScoped<UnitOfWork>();
