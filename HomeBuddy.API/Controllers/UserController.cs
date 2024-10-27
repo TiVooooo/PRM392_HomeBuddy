@@ -68,5 +68,13 @@ namespace HomeBuddy.API.Controllers
 
             return Ok(result);
         }
+
+        [HttpPut("change-role")]
+        public async Task<IActionResult> ChangeRole(int id, string newRole)
+        {
+            var result = await _userService.ChangeRole(id, newRole);
+
+            return Ok(result);
+        }
     }
 }
