@@ -22,6 +22,7 @@ namespace HomeBuddy.Service.Services
         Task<IBusinessResult> Delete(int userId);
         Task<IBusinessResult> EditAvatar(int id, IFormFile avatar);
         Task<IBusinessResult> CreateHelper(CreateHelperDTO request);
+        Task<IBusinessResult> ChangeRole(int userId, string newRole);
     }
 
     public class UserService : IUserService
@@ -155,6 +156,21 @@ namespace HomeBuddy.Service.Services
 
             await _unitOfWork.UserRepository.RemoveAsync(user);
             return new BusinessResult(Const.SUCCESS_DELETE, Const.SUCCESS_DELETE_MSG);
+        }
+        public async Task<IBusinessResult> ChangeRole(int userId, string newRole)
+        {
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
+
+            if (user == null)
+            {
+                return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
+            }
+
+            user.Role = newRole;
+
+            await _unitOfWork.UserRepository.UpdateAsync(user);
+
+            return new BusinessResult(Const.SUCCESS_UDATE, $"Role updated to {newRole} successfully", user);
         }
 
         private bool CheckEmailExist(string email)
