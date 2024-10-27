@@ -1,5 +1,6 @@
 ﻿using FirebaseAdmin.Messaging;
 using HomeBuddy.Data.UnitOfWork;
+using HomeBuddy.Service.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace HomeBuddy.Service.Services
     public interface INotificationService
     {
         Task<string> SendNotification(string token, string title, string body);
+        Task<List<NotiModel>> GetNotification(int u);
 
     }
 
@@ -40,5 +42,30 @@ namespace HomeBuddy.Service.Services
             string response = await FirebaseMessaging.DefaultInstance.SendAsync(message);
             return response;
         }
+
+        public async Task<List<NotiModel>> GetNotification(int id)
+        {
+            var list =  await _unitOfWork.NotificationRepository.GetAllNotificationRepo();
+            var noti = list.Where(x => x.UserId == id).ToList();
+            var result = new List<NotiModel>();
+            foreach (var item in noti) {
+                var notiModel = new NotiModel
+                {
+                    Date = item.Date.ToString("dd-MM-yyyy"),
+                    Description = item.Description,
+                    Status = item.Status,
+                    Tittle = item.Tittle,
+                    UserName = item.User.Name
+                };
+                result.Add(notiModel);
+            }
+            
+            if (result == null)
+            {
+                return null;
+            }
+            return result;
+        }
+
     }
 }

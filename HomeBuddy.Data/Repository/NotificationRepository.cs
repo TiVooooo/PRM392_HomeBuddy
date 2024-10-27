@@ -16,5 +16,10 @@ namespace HomeBuddy.Data.Repository
         {
             _context = context;
         }
+
+            public async Task<List<HomeBuddy.Data.Models.Notification>> GetAllNotificationRepo()
+            {
+                return await _context.Notifications.Include(n=>n.User).ToListAsync();
+            }
     }
 }

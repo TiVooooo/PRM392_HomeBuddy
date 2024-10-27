@@ -38,5 +38,12 @@ namespace HomeBuddy.API.Controllers
             return Ok(result);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateService([FromRoute]int id ,[FromBody] CreateServiceDTO model)
+        {
+            var result = await _serviceService.Update(id,model);
+            return Ok(result);
+        }
+
     }
 }

@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HomeBuddy.API.Controllers
 {
+
+    [ApiController]
+    [Route("api/[controller]")]
     public class NotificationController : ControllerBase
     {
         private readonly INotificationService _notificationService;
@@ -18,6 +21,14 @@ namespace HomeBuddy.API.Controllers
             var response = await _notificationService.SendNotification(token, title, body);
             return Ok(response);
         }
+
+        [HttpGet("/{id}")]
+        public async Task<IActionResult> GetAllNoti([FromRoute]int id)
+        {
+            var response = await _notificationService.GetNotification(id);
+            return Ok(response);
+        }
+
     }
 
 }
