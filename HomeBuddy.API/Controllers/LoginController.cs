@@ -18,9 +18,9 @@ namespace HomeBuddy.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login(string email, string password, string? deviceToken)
         {
-            var loginUser = await _loginService.Login(email, password);
+            var loginUser = await _loginService.Login(email, password, deviceToken);
             return Ok(loginUser);
         }
     }
