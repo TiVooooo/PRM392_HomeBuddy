@@ -29,6 +29,8 @@ public partial class User
 
     public int? ParentId { get; set; }
 
+    public string DeviceToken { get; set; }
+
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();

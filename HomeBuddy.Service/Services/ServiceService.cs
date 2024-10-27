@@ -15,7 +15,7 @@ namespace HomeBuddy.Service.Services
     public interface IServiceService
     {
         Task<IBusinessResult> GetById(int id);
-        Task<IBusinessResult> GetAll();
+        Task<List<HomeBuddy.Data.Models.Service>> GetAll();
         Task<IBusinessResult> Update(HomeBuddy.Data.Models.Service package);
         Task<IBusinessResult> Save(CreateServiceDTO package);
 
@@ -50,7 +50,7 @@ namespace HomeBuddy.Service.Services
             }
         }
 
-        public async Task<IBusinessResult> GetAll()
+        public async Task<List<HomeBuddy.Data.Models.Service>> GetAll()
         {
             try
             {
@@ -61,16 +61,16 @@ namespace HomeBuddy.Service.Services
 
                 if (objs == null)
                 {
-                    return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
+                    return null;
                 }
                 else
                 {
-                    return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, objs);
+                    return objs;
                 }
             }
             catch (Exception ex)
             {
-                return new BusinessResult(Const.ERROR_EXEPTION, ex.Message);
+                return null;
             }
         }
         public async Task<IBusinessResult> Save(CreateServiceDTO package)
