@@ -15,7 +15,7 @@ namespace HomeBuddy.Service.Services
 {
     public interface ILoginService
     {
-        Task<IBusinessResult> Login(string email, string password);
+        Task<IBusinessResult> Login(string email, string password, string deviceToken);
     }
     public class LoginService : ILoginService
     {
@@ -27,7 +27,7 @@ namespace HomeBuddy.Service.Services
             _configuration = configuration;
         }
 
-        public async Task<IBusinessResult> Login(string email, string password)
+        public async Task<IBusinessResult> Login(string email, string password, string? deviceToken)
         {
             var userList = await _unitOfWork.UserRepository.GetAllAsync();
 
@@ -41,8 +41,13 @@ namespace HomeBuddy.Service.Services
             {
                 return new BusinessResult(Const.ERROR_EXEPTION, "Not found user");
             } 
-
+            if(!string.IsNullOrEmpty(deviceToken))
+            {
+                checkedUser.DeviceToken = deviceToken;
+                await _unitOfWork.UserRepository.UpdateAsync(checkedUser);
+            }
             var role = checkedUser.Role;
+
             var authClaims = new List<Claim>
             {
             new Claim(ClaimTypes.Name, checkedUser.Name),
