@@ -1,6 +1,7 @@
 ﻿using HomeBuddy.Common;
 using HomeBuddy.Data.UnitOfWork;
 using HomeBuddy.Service.Base;
+using HomeBuddy.Service.Model.RequestDTO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -15,7 +16,7 @@ namespace HomeBuddy.Service.Services
 {
     public interface ILoginService
     {
-        Task<IBusinessResult> Login(string email, string password, string deviceToken);
+        Task<IBusinessResult> Login(LoginRequest loginRequest);
     }
     public class LoginService : ILoginService
     {
@@ -27,23 +28,23 @@ namespace HomeBuddy.Service.Services
             _configuration = configuration;
         }
 
-        public async Task<IBusinessResult> Login(string email, string password, string? deviceToken)
+        public async Task<IBusinessResult> Login(LoginRequest loginRequest)
         {
             var userList = await _unitOfWork.UserRepository.GetAllAsync();
 
-            if (email == null|| password == null)
+            if (loginRequest.Email == null|| loginRequest.Password == null)
             {
                 return new BusinessResult("Email and Password must be filled");
             } 
-            var checkedUser = userList.Where(x => x.Email == email && x.Password ==  password)
+            var checkedUser = userList.Where(x => x.Email == loginRequest.Email && x.Password == loginRequest.Password)
                 .FirstOrDefault();
             if(checkedUser == null)
             {
                 return new BusinessResult(Const.ERROR_EXEPTION, "Not found user");
             } 
-            if(!string.IsNullOrEmpty(deviceToken))
+            if(!string.IsNullOrEmpty(loginRequest.DeviceToken))
             {
-                checkedUser.DeviceToken = deviceToken;
+                checkedUser.DeviceToken = loginRequest.DeviceToken;
                 await _unitOfWork.UserRepository.UpdateAsync(checkedUser);
             }
             var role = checkedUser.Role;
@@ -62,7 +63,8 @@ namespace HomeBuddy.Service.Services
                 token = new JwtSecurityTokenHandler().WriteToken(token),
                 Role = role,
                 UserId = checkedUser.Id,
-                expiration = token.ValidTo
+                expiration = token.ValidTo,
+                DeviceToken = loginRequest.DeviceToken
             });
         }
 
@@ -74,7 +76,7 @@ namespace HomeBuddy.Service.Services
                 (
                     issuer: _configuration["JWT:ValidIssuer"],
                     audience: _configuration["JWT:ValidAudience"],
-                    expires: DateTime.UtcNow.AddDays(3),
+                    expires: DateTime.UtcNow.AddDays(1),
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                 );
