@@ -1,4 +1,5 @@
-﻿using HomeBuddy.Common;
+﻿using Firebase.Auth;
+using HomeBuddy.Common;
 using HomeBuddy.Data.Models;
 using HomeBuddy.Data.UnitOfWork;
 using HomeBuddy.Service.Base;
@@ -14,9 +15,9 @@ namespace HomeBuddy.Service.Services
 {
     public interface IServiceService
     {
-        Task<IBusinessResult> GetById(int id);
-        Task<List<HomeBuddy.Data.Models.Service>> GetAll();
-        Task<IBusinessResult> Update(HomeBuddy.Data.Models.Service package);
+        Task<ServiceModel> GetById(int id);
+        Task<List<ServiceModel>> GetAll();
+        Task<IBusinessResult> Update(int id, CreateServiceDTO package);
         Task<IBusinessResult> Save(CreateServiceDTO package);
 
     }
@@ -29,43 +30,69 @@ namespace HomeBuddy.Service.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IBusinessResult> GetById(int id)
+        public async Task<ServiceModel> GetById(int id)
         {
             try
             {
                 var obj = await _unitOfWork.ServiceRepository.GetByIdAsync(id);
+                var helper = _unitOfWork.HelperRepository.GetById(obj.HelperId);
+                var user = _unitOfWork.UserRepository.FindByCondition(u => u.Id == helper.UserId).FirstOrDefault();
 
-                if (obj == null)
+                var service = new ServiceModel
                 {
-                    return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
+                    Id = id,
+                    Description = obj.Description,
+                    Duration = obj.Duration,
+                    HelperName = user.Name,
+                    Name = obj.Name,
+                    Image = obj.Image,
+                    Price = obj.Price
+                };
+
+                if (service == null)
+                {
+                 return   null;
                 }
                 else
                 {
-                    return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, obj);
+                    return service;
                 }
             }
             catch (Exception ex)
             {
-                return new BusinessResult(Const.ERROR_EXEPTION, ex.Message);
+                return null;
             }
         }
 
-        public async Task<List<HomeBuddy.Data.Models.Service>> GetAll()
+        public async Task<List<ServiceModel>> GetAll()
         {
             try
             {
-                #region Business rule
-                #endregion
-
                 var objs = await _unitOfWork.ServiceRepository.GetServicesAsync();
+                var list = new List<ServiceModel>();
+                foreach (var obj in objs) {
+                    var helper = _unitOfWork.HelperRepository.GetById(obj.HelperId);
+                    var user = _unitOfWork.UserRepository.FindByCondition(u=> u.Id ==  helper.UserId).FirstOrDefault();
+                    var service = new ServiceModel
+                    {
+                        Id = obj.Id,
+                        Description = obj.Description,
+                        Duration = obj.Duration,
+                        HelperName = user.Name,
+                        Name = obj.Name,
+                        Image = obj.Image,
+                        Price = obj.Price
+                    };
+                    list.Add(service);
+                }
 
-                if (objs == null)
+                if (list == null)
                 {
                     return null;
                 }
                 else
                 {
-                    return objs;
+                    return list;
                 }
             }
             catch (Exception ex)
@@ -104,11 +131,17 @@ namespace HomeBuddy.Service.Services
                 }
             }
         }
-        public async Task<IBusinessResult> Update(HomeBuddy.Data.Models.Service package)
+        public async Task<IBusinessResult> Update(int id, CreateServiceDTO package)
         {
             try
             {
-                var packageUpdate = await _unitOfWork.ServiceRepository.UpdateAsync(package);
+                var service = _unitOfWork.ServiceRepository.GetById(id);
+                service.Description = package.Description;
+                service.Duration = package.Duration;
+                service.HelperId = package.HelperId;
+                service.Price = package.Price;
+                service.Name = package.Name;
+                var packageUpdate = await _unitOfWork.ServiceRepository.UpdateAsync(service);
                 if (packageUpdate > 0)
                 {
                     return new BusinessResult(Const.SUCCESS_UDATE, Const.SUCCESS_UDATE_MSG, packageUpdate);
