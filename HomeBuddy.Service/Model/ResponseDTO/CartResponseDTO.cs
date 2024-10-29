@@ -8,6 +8,7 @@ namespace HomeBuddy.Service.Model.ResponseDTO
 {
     public class CartResponseDTO
     {
+        public int CartID {  get; set; }
         public string ServiceName { get; set; }
         public string ServiceImage { get; set; }
         public double ServicePrice { get; set; }

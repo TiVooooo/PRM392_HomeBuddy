@@ -13,6 +13,7 @@ namespace HomeBuddy.Service.Services
     public interface ICartService
     {
         Task<(IEnumerable<CartResponseDTO>, double)> GetCartItemsAsync(int userId);
+        Task<bool> RemoveCartItemAsync(int cartId);
     }
     public class CartService : ICartService
     {
@@ -29,6 +30,7 @@ namespace HomeBuddy.Service.Services
 
             var cartItems = carts.Select(cart => new CartResponseDTO
             {
+                CartID = cart.Id,
                 ServiceName = cart.Service.Name,
                 ServiceImage = cart.Service.Image,
                 ServicePrice = cart.Service.Price,
@@ -39,6 +41,19 @@ namespace HomeBuddy.Service.Services
             var totalSubtotal = cartItems.Sum(item => item.Subtotal);
 
             return (cartItems, totalSubtotal);
+        }
+
+        public async Task<bool> RemoveCartItemAsync(int cartId)
+        {
+            var cartItem = await _unitOfWork.CartRepository.GetByIdAsync(cartId);
+            if (cartItem == null)
+            {
+                return false;
+            }
+
+            _unitOfWork.CartRepository.Remove(cartItem);
+
+            return true;
         }
     }
 }

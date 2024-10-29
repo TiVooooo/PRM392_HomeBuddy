@@ -25,5 +25,17 @@ namespace HomeBuddy.API.Controllers
                 Subtotal = subtotal
             });
         }
+
+        [HttpDelete("{cartId}")]
+        public async Task<IActionResult> RemoveCartItem(int cartId)
+        {
+            var result = await _cartService.RemoveCartItemAsync(cartId);
+            if (!result)
+            {
+                return NotFound();
+            }
+
+            return NoContent(); 
+        }
     }
 }
