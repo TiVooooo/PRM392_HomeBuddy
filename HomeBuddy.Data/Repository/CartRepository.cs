@@ -1,5 +1,6 @@
 ﻿using HomeBuddy.Data.Base;
 using HomeBuddy.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,12 @@ namespace HomeBuddy.Data.Repository
         public CartRepository(PRM392_HomeBuddyContext context)
         {
             _context = context;
+        }
+
+        public IQueryable<Cart> GetAllCartWithOthers()
+        {
+            return _context.Carts
+                .Include(b => b.Service);
         }
     }
 }
