@@ -40,7 +40,7 @@ namespace HomeBuddy.Service.Services
 
                 var service = new ServiceModel
                 {
-
+                    Id = id,
                     Description = obj.Description,
                     Duration = obj.Duration,
                     HelperName = user.Name,
@@ -75,7 +75,7 @@ namespace HomeBuddy.Service.Services
                     var user = _unitOfWork.UserRepository.FindByCondition(u=> u.Id ==  helper.UserId).FirstOrDefault();
                     var service = new ServiceModel
                     {
-
+                        Id = obj.Id,
                         Description = obj.Description,
                         Duration = obj.Duration,
                         HelperName = user.Name,

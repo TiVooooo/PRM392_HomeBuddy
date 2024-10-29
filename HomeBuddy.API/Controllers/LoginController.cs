@@ -1,6 +1,7 @@
 ﻿using FirebaseAdmin.Messaging;
 using HomeBuddy.Common;
 using HomeBuddy.Service.Base;
+using HomeBuddy.Service.Model;
 using HomeBuddy.Service.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,9 +19,9 @@ namespace HomeBuddy.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string email, string password, string? deviceToken)
+        public async Task<IActionResult> Login(LoginModel login)
         {
-            var loginUser = await _loginService.Login(email, password, deviceToken);
+            var loginUser = await _loginService.Login(login);
             return Ok(loginUser);
         }
     }

@@ -1,6 +1,7 @@
 ﻿using HomeBuddy.Common;
 using HomeBuddy.Data.UnitOfWork;
 using HomeBuddy.Service.Base;
+using HomeBuddy.Service.Model;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -15,7 +16,7 @@ namespace HomeBuddy.Service.Services
 {
     public interface ILoginService
     {
-        Task<IBusinessResult> Login(string email, string password, string deviceToken);
+        Task<IBusinessResult> Login(LoginModel login);
     }
     public class LoginService : ILoginService
     {
@@ -27,23 +28,23 @@ namespace HomeBuddy.Service.Services
             _configuration = configuration;
         }
 
-        public async Task<IBusinessResult> Login(string email, string password, string? deviceToken)
+        public async Task<IBusinessResult> Login(LoginModel login)
         {
             var userList = await _unitOfWork.UserRepository.GetAllAsync();
 
-            if (email == null|| password == null)
+            if(login.Email == null|| login.Password == null)
             {
                 return new BusinessResult("Email and Password must be filled");
             } 
-            var checkedUser = userList.Where(x => x.Email == email && x.Password ==  password)
+            var checkedUser = userList.Where(x => x.Email == login.Email && x.Password ==  login.Password)
                 .FirstOrDefault();
             if(checkedUser == null)
             {
                 return new BusinessResult(Const.ERROR_EXEPTION, "Not found user");
             } 
-            if(!string.IsNullOrEmpty(deviceToken))
+            if(!string.IsNullOrEmpty(login.DeviceToken))
             {
-                checkedUser.DeviceToken = deviceToken;
+                checkedUser.DeviceToken = login.DeviceToken;
                 await _unitOfWork.UserRepository.UpdateAsync(checkedUser);
             }
             var role = checkedUser.Role;
