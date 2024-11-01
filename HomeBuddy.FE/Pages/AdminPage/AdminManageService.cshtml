@@ -1,7 +1,6 @@
 ﻿@page
-@model HomeBuddy.FE.Pages.ManagerPage.ServiceManagementModel
+@model HomeBuddy.FE.Pages.AdminPage.AdminManageServiceModel
 @{
-    ViewData["Title"] = "Service Management";
 }
 <!-- Sidebar CSS -->
 <style>
@@ -118,15 +117,24 @@
     <div>
         <ul>
             <li>
-                <a href="/ManagerPage/HelperManagement" class="text-sm text-white font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                <a href="/AdminPage/Dashboard" class="text-sm text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
                     <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                        <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                        <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                     </svg>
-                    <span class="ml-2">Helper Management</span>
+                    <span class="ml-2">Dashboard</span>
                 </a>
             </li>
             <li>
-                <a href="/ManagerPage/ServiceManagement" class="text-sm text-white font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                <a href="/AdminPage/UserManagement" class="text-sm text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                    <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="ml-2">User Management</span>
+                </a>
+            </li>
+            <li>
+                <a href="/AdminPage/AdminManageService" class="text-sm text-white font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
                     <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M5 3h14a2 2 0 012 2v2h-2V5H5v2H3V5a2 2 0 012-2zm14 6h2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V9h2v10h14V9zm-7 2v4H9v-4h3zm2 0h3v4h-3v-4z"></path>
                     </svg>
@@ -134,7 +142,7 @@
                 </a>
             </li>
             <li>
-                <a href="/ManagerPage/BookingManagement" class="text-sm text-white font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                <a href="/AdminPage/AdminManageBooking" class="text-sm text-white font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
                     <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M3 6h18v2H3V6zm0 4h18v2H3v-2zm6 4h12v2H9v-2zm0 4h8v2H9v-2zM3 14h4v2H3v-2zm0 4h4v2H3v-2z"></path>
                     </svg>

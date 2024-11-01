@@ -22,5 +22,10 @@ namespace HomeBuddy.Data.Repository
                                  .Where(u => u.Role != "Admin")
                                  .ToListAsync();
         }
+        public async Task<int> CountUsersExceptAdminAsync()
+        {
+            return await _context.Users.CountAsync(u => u.Role != "Admin");
+        }
+
     }
 }

@@ -16,15 +16,19 @@ namespace HomeBuddy.Service.Services
 {
     public interface IBookingService
     {
-        Task<IBusinessResult> GetAllBookings();
+        Task<List<BookingResponseDTO>> GetAllBookings();
 
-        Task<IBusinessResult> GetBookingByID(int id);
+        Task<BookingResponseDTO> GetBookingByID(int id);
 
-        Task<IBusinessResult> CreateNewBooking(CreateNewBookingRequest model);
+        Task<BookingResponseDTO> CreateNewBooking(CreateNewBookingRequest model);
 
-        Task<IBusinessResult> UpdateBooking(int bookingID, UpdateBookingRequest model);
+        Task<BookingResponseDTO> UpdateBooking(int bookingID, UpdateBookingRequest model);
 
-        Task<IBusinessResult> DeleteBooking(int id);
+        Task<Booking> DeleteBooking(int id);
+       Task<List<BookingResponseDTO>> GetAllBookingInHelper(int helperId);
+        Task<List<BookingResponseDTO>> GetAllBookingInUser(int userId);
+
+
     }
 
     public class BookingService : IBookingService
@@ -35,14 +39,14 @@ namespace HomeBuddy.Service.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<IBusinessResult> GetAllBookings()
+        public async Task<List<BookingResponseDTO>> GetAllBookings()
         {
             try
             {
                 var bookings = _unitOfWork.BookingRepository.GetAllBookingsWithOthers();
                 if (bookings.Count() <= 0)
                 {
-                    return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
+                    return new List<BookingResponseDTO>();
                 }
 
                 var response = bookings.Select(b => new BookingResponseDTO
@@ -51,33 +55,34 @@ namespace HomeBuddy.Service.Services
                     Price = b.Price,
                     BookingDate = b.BookingDay.ToString("yyyy-mm-dd"),
                     BookingTime = b.BookingDay.ToString("HH:mm:ss"),
+                    ServiceDate = b.ServiceDate.ToString("yyyy-MM-dd HH:mm:ss"),
                     Address = b.Address,
                     Phone = b.Phone,
                     Note = b.Note,
                     Status = b.Status,
-                    LongItude = b.LongItude,
+                    Longitude = b.LongItude,
                     Latitude = b.Latitude,
                     HelperName = b.Helper.User.Name,
                     UserName = b.User.Name,
-                    CartID = b.CartId
+                    ServiceName = b.Service.Name
                 });
 
-                return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, response);
-            } 
+                return response.ToList();
+            }
             catch (Exception ex)
             {
-                return new BusinessResult(Const.ERROR_EXEPTION, ex.Message);
+                return new List<BookingResponseDTO>();
             }
         }
 
-        public async Task<IBusinessResult> GetBookingByID(int id)
+        public async Task<BookingResponseDTO> GetBookingByID(int id)
         {
             try
             {
                 var booking = await _unitOfWork.BookingRepository.GetAllBookingsWithOthers().Where(b => b.Id == id).FirstOrDefaultAsync();
-                if(booking == null)
+                if (booking == null)
                 {
-                    return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
+                    return null;
                 }
 
                 var response = new BookingResponseDTO
@@ -86,45 +91,40 @@ namespace HomeBuddy.Service.Services
                     Price = booking.Price,
                     BookingDate = booking.BookingDay.ToString("yyyy-mm-dd"),
                     BookingTime = booking.BookingDay.ToString("HH:mm:ss"),
+                    ServiceDate = booking.ServiceDate.ToString("yyyy-MM-dd HH:mm:ss"),
                     Address = booking.Address,
                     Phone = booking.Phone,
                     Note = booking.Note,
                     Status = booking.Status,
-                    LongItude = booking.LongItude,
+                    Longitude = booking.LongItude,
                     Latitude = booking.Latitude,
                     HelperName = booking.Helper.User.Name,
                     UserName = booking.User.Name,
-                    CartID = booking.CartId
+                    ServiceName = booking.Service.Name
                 };
 
-                return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, response);
+                return response;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return new BusinessResult(Const.ERROR_EXEPTION, ex.Message);
+                return null;
             }
         }
 
-        public async Task<IBusinessResult> CreateNewBooking(CreateNewBookingRequest model)
+        public async Task<BookingResponseDTO> CreateNewBooking(CreateNewBookingRequest model)
         {
             try
             {
                 var helper = await _unitOfWork.HelperRepository.GetByIdAsync(model.HelperId);
                 if (helper == null)
                 {
-                    return new BusinessResult(Const.WARNING_NO_DATA, "Helper does not existed !");
-                }
-
-                var cart = await _unitOfWork.CartRepository.GetByIdAsync(model.CartId);
-                if (cart == null)
-                {
-                    return new BusinessResult(Const.WARNING_NO_DATA, "Cart does not existed !");
+                    return null;
                 }
 
                 var user = await _unitOfWork.UserRepository.GetByIdAsync(model.UserId);
                 if (user == null)
                 {
-                    return new BusinessResult(Const.WARNING_NO_DATA, "User does not existed !");
+                    return null;
                 }
 
                 var newBookings = new Booking
@@ -134,11 +134,9 @@ namespace HomeBuddy.Service.Services
                     Address = model.Address,
                     Phone = model.Phone,
                     Note = model.Note,
-                    Status = (int) BookingStatusEnums.PENDING,
-                    LongItude = model.LongItude,
-                    Latitude = model.Latitude,
+                    Status = (int)BookingStatusEnums.PENDING,
+                    ServiceDate = model.ServiceDate,
                     HelperId = model.HelperId,
-                    CartId = model.CartId,
                     UserId = model.UserId,
                 };
 
@@ -148,55 +146,50 @@ namespace HomeBuddy.Service.Services
                     var bookings = _unitOfWork.BookingRepository.GetAllBookingsWithOthers();
                     var response = bookings.Where(b => b.Id == newBookings.Id)
                                            .Select(booking => new BookingResponseDTO
-                    {
-                        Id = booking.Id,
-                        Price = booking.Price,
-                        BookingDate = booking.BookingDay.ToString("yyyy-mm-dd"),
-                        BookingTime = booking.BookingDay.ToString("HH:mm:ss"),
-                        Address = booking.Address,
-                        Phone = booking.Phone,
-                        Note = booking.Note,
-                        Status = booking.Status,
-                        LongItude = booking.LongItude,
-                        Latitude = booking.Latitude,
-                        HelperName = booking.Helper.User.Name,
-                        UserName = booking.User.Name,
-                        CartID = booking.CartId
-                    });
+                                           {
+                                               Id = booking.Id,
+                                               Price = booking.Price,
+                                               BookingDate = booking.BookingDay.ToString("yyyy-mm-dd"),
+                                               BookingTime = booking.BookingDay.ToString("HH:mm:ss"),
+                                               Address = booking.Address,
+                                               Phone = booking.Phone,
+                                               Note = booking.Note,
+                                               Status = booking.Status,
+                                               Longitude = booking.LongItude,
+                                               Latitude = booking.Latitude,
+                                               HelperName = booking.Helper.User.Name,
+                                               UserName = booking.User.Name,
+                                               ServiceName = booking.Service.Name,
+                                               ServiceDate = booking.ServiceDate.ToString("yyyy-MM-dd HH:mm:ss")
+                                           });
 
-                    return new BusinessResult(Const.SUCCESS_CREATE, Const.SUCCESS_CREATE_MSG, response);
-                } 
+                    return (BookingResponseDTO)response;
+                }
                 else
                 {
-                    return new BusinessResult(Const.FAIL_CREATE, Const.FAIL_CREATE_MSG);
+                    return null;
                 }
-            } 
-            catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                return new BusinessResult(Const.ERROR_EXEPTION, ex.Message);
+                return null;
             }
         }
 
-        public async Task<IBusinessResult> UpdateBooking(int bookingID, UpdateBookingRequest model)
+        public async Task<BookingResponseDTO> UpdateBooking(int bookingID, UpdateBookingRequest model)
         {
             try
             {
                 var booking = await _unitOfWork.BookingRepository.GetAllBookingsWithOthers().Where(b => b.Id == bookingID).FirstOrDefaultAsync();
                 if (booking == null)
                 {
-                    return new BusinessResult(Const.WARNING_NO_DATA, "Booking does not existed !");
+                    return null;
                 }
 
                 var helper = await _unitOfWork.HelperRepository.GetByIdAsync(model.HelperId ?? booking.HelperId);
                 if (helper == null)
                 {
-                    return new BusinessResult(Const.WARNING_NO_DATA, "Helper does not existed !");
-                }
-
-                var cart = await _unitOfWork.CartRepository.GetByIdAsync(model.CartId ?? booking.CartId);
-                if (cart == null)
-                {
-                    return new BusinessResult(Const.WARNING_NO_DATA, "Cart does not existed !");
+                    return null;
                 }
 
                 booking.Price = model.Price ?? booking.Price;
@@ -206,7 +199,6 @@ namespace HomeBuddy.Service.Services
                 booking.LongItude = model.LongItude ?? booking.LongItude;
                 booking.Latitude = model.Latitude ?? booking.Latitude;
                 booking.HelperId = model.HelperId ?? booking.HelperId;
-                booking.CartId = model.CartId ?? booking.CartId;
 
                 var result = await _unitOfWork.BookingRepository.UpdateAsync(booking);
                 if (result > 0)
@@ -216,32 +208,33 @@ namespace HomeBuddy.Service.Services
                         Id = booking.Id,
                         Price = booking.Price,
                         BookingDate = booking.BookingDay.ToString("yyyy-mm-dd"),
+                        ServiceDate = booking.ServiceDate.ToString("yyyy-MM-dd HH:mm:ss"),
                         BookingTime = booking.BookingDay.ToString("HH:mm:ss"),
                         Address = booking.Address,
                         Phone = booking.Phone,
                         Note = booking.Note,
                         Status = booking.Status,
-                        LongItude = booking.LongItude,
+                        Longitude = booking.LongItude,
                         Latitude = booking.Latitude,
                         HelperName = booking.Helper.User.Name,
                         UserName = booking.User.Name,
-                        CartID = booking.CartId
+                        ServiceName = booking.Service.Name
                     };
 
-                    return new BusinessResult(Const.SUCCESS_UDATE, Const.SUCCESS_UDATE_MSG, response);
+                    return response;
                 }
                 else
                 {
-                    return new BusinessResult(Const.FAIL_UDATE, Const.FAIL_UDATE_MSG);
+                    return null;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return new BusinessResult(Const.ERROR_EXEPTION, ex.Message);
+                return null;
             }
         }
 
-        public async Task<IBusinessResult> DeleteBooking(int id)
+        public async Task<Booking> DeleteBooking(int id)
         {
             try
             {
@@ -252,23 +245,105 @@ namespace HomeBuddy.Service.Services
                     var result = await _unitOfWork.BookingRepository.RemoveAsync(bookingExisted);
                     if (result)
                     {
-                        return new BusinessResult(Const.SUCCESS_DELETE, Const.SUCCESS_DELETE_MSG);
+                        return null;
                     }
                     else
                     {
-                        return new BusinessResult(Const.FAIL_DELETE, Const.FAIL_DELETE_MSG);
+                        return null;
                     }
                 }
                 else
                 {
-                    return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
+                    return bookingExisted;
                 }
             }
             catch (Exception ex)
             {
-                return new BusinessResult(Const.ERROR_EXEPTION, ex.Message);
+                return null;
             }
         }
+
+
+        public async Task<List<BookingResponseDTO>> GetAllBookingInUser(int userId)
+        {
+            try
+            {
+                var bookings = _unitOfWork.BookingRepository.GetAllBookingsWithOthers();
+                var result = bookings.Where(x => x.UserId == userId).ToList();
+                if (result.Count() <= 0)
+                {
+                    return new List<BookingResponseDTO>();
+                }
+
+                var response = result.Select(b => new BookingResponseDTO
+                {
+                    Id = b.Id,
+                    Price = b.Price,
+                    BookingDate = b.BookingDay.ToString("yyyy-mm-dd"),
+                    BookingTime = b.BookingDay.ToString("HH:mm:ss"),
+                    ServiceDate = b.ServiceDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                    Address = b.Address,
+                    Phone = b.Phone,
+                    Note = b.Note,
+                    Status = b.Status,
+                    Longitude = b.LongItude,
+                    Latitude = b.Latitude,
+                    HelperName = b.Helper.User.Name,
+                    UserName = b.User.Name,
+                    ServiceName = b.Service.Name
+                });
+
+                return response.ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<BookingResponseDTO>();
+            }
+
+        }
+
+
+
+        public async Task<List<BookingResponseDTO>> GetAllBookingInHelper(int helperId)
+        {
+            try
+            {
+                var bookings = _unitOfWork.BookingRepository.GetAllBookingsWithOthers();
+                var result = bookings.Where(x => x.HelperId == helperId).ToList();
+                if (result.Count() <= 0)
+                {
+                    return new List<BookingResponseDTO>();
+                }
+
+                var response = result.Select(b => new BookingResponseDTO
+                {
+                    Id = b.Id,
+                    Price = b.Price,
+                    BookingDate = b.BookingDay.ToString("yyyy-mm-dd"),
+                    BookingTime = b.BookingDay.ToString("HH:mm:ss"),
+                    ServiceDate = b.ServiceDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                    Address = b.Address,
+                    Phone = b.Phone,
+                    Note = b.Note,
+                    Status = b.Status,
+                    Longitude = b.LongItude,
+                    Latitude = b.Latitude,
+                    HelperName = b.Helper.User.Name,
+                    UserName = b.User.Name,
+                    ServiceName = b.Service.Name
+                });
+
+                return response.ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<BookingResponseDTO>();
+            }
+
+        }
+
+
+
 
     }
 }

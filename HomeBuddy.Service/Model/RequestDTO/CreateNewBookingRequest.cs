@@ -16,13 +16,11 @@ namespace HomeBuddy.Service.Model.RequestDTO
 
         public string Note { get; set; }
 
-        public double LongItude { get; set; }
+        public DateTime BookingDay { get; set; }
 
-        public double Latitude { get; set; }
+        public DateTime ServiceDate { get; set; }
 
         public int HelperId { get; set; }
-
-        public int CartId { get; set; }
 
         public int UserId { get; set; }
     }

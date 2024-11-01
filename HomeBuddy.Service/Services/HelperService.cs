@@ -14,6 +14,7 @@ namespace HomeBuddy.Service.Services
         public Task<IBusinessResult> GetAll();
         public Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> ChangeStatus(int helperId);
+        
     }
     public class HelperService : IHelperService
     {
@@ -23,6 +24,7 @@ namespace HomeBuddy.Service.Services
         {
             _unitOfWork = unitOfWork; 
         }
+        
         public async Task<IBusinessResult> ChangeStatus(int helperId)
         {
             var helper = await _unitOfWork.HelperRepository.GetByIdAsync(helperId);

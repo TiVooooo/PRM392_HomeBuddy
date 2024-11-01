@@ -18,7 +18,7 @@ namespace HomeBuddy.Data.Repository
         }
         public IQueryable<Message> GetAllMessageByChatId(int chatId)
         {
-            return _context.Messages.Include(m => m.Chat).Where(m => m.ChatId == chatId);
+            return _context.Messages.Include(x => x.Sender).Where(m => m.ChatId == chatId);
         }
     }
 }

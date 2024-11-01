@@ -21,6 +21,8 @@ public partial class Service
 
     public string Image { get; set; }
 
+    public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
+
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 
     public virtual Helper Helper { get; set; }

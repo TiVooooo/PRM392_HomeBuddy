@@ -37,6 +37,7 @@ builder.Services.AddScoped<IChatService, ChatService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 builder.Services.AddDbContext<PRM392_HomeBuddyContext>(opt =>
 {

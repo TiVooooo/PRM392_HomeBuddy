@@ -15,7 +15,8 @@ namespace HomeBuddy.API.Controllers
         {
             _helpService = helpService;
         }
-        [HttpPut]
+       
+        [HttpPut("change-status")]
         public async Task<IActionResult> ChangeStatus(int id)
         {
             var result = await _helpService.ChangeStatus(id);

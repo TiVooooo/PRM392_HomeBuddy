@@ -19,6 +19,8 @@ namespace HomeBuddy.Data.Repository
         public IQueryable<Chat> GetAllChatWithMessages()
         {
             return _context.Chats
+                .Include(x => x.Receiver)
+                .Include(x => x.Sender)
                 .Include(c=>c.Messages);
         }
     }

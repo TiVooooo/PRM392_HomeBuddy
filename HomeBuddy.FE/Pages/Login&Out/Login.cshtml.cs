@@ -59,7 +59,7 @@ namespace HomeBuddy.FE.Pages.Login_Out
 
                 if (apiResponse?.Data != null)
                 {
-                    var loginResult = apiResponse.Data; // Lấy dữ liệu từ Data
+                    var loginResult = apiResponse.Data; 
 
                     HttpContext.Session.SetString("JWTToken", loginResult.Token);
                     HttpContext.Session.SetString("UserRole", loginResult.Role);
@@ -68,7 +68,7 @@ namespace HomeBuddy.FE.Pages.Login_Out
                     var handler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
                     var jsonToken = handler.ReadToken(loginResult.Token) as System.IdentityModel.Tokens.Jwt.JwtSecurityToken;
                     var userName = jsonToken?.Claims.FirstOrDefault(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")?.Value;
-                    var userId = loginResult.UserId.ToString(); // Sử dụng userId từ loginResult
+                    var userId = loginResult.UserId.ToString(); 
 
                     if (!string.IsNullOrEmpty(userId))
                     {
@@ -82,7 +82,7 @@ namespace HomeBuddy.FE.Pages.Login_Out
                     _logger.LogInformation($"User with role {loginResult.Role} logged in successfully");
                     if (loginResult.Role == "Admin")
                     {
-                    return RedirectToPage("/AdminPage/UserManagement");
+                    return RedirectToPage("/AdminPage/Dashboard");
                     }
                     if (loginResult.Role == "Manager")
                     {
@@ -101,7 +101,6 @@ namespace HomeBuddy.FE.Pages.Login_Out
                 ErrorMessage = "Đã xảy ra lỗi trong quá trình đăng nhập. Vui lòng thử lại sau.";
             }
 
-            // Nếu đến đây, có thể có lỗi trong quá trình đăng nhập hoặc phản hồi không hợp lệ
             ModelState.AddModelError(string.Empty, ErrorMessage ?? "Invalid login attempt.");
             return Page();
         }

@@ -21,5 +21,9 @@ namespace HomeBuddy.Data.Repository
         {
             return await _context.Services.Include(s=>s.Helper).ToListAsync();
         }
+        public async Task<int> CountService()
+        {
+            return await _context.Services.CountAsync();
+        }
     }
 }

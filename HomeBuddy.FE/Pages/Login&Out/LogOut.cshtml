@@ -3,6 +3,26 @@
 @{
     ViewData["Title"] = "Logout";
 }
-<h1>Logout</h1>
-<p>You have been successfully logged out.</p>
-<a asp-page="/Index" class="btn btn-primary">Return to Login</a>
+
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans bg-gray-100">
+    <div class="py-16">
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-lg">
+            <img src="https://www.chuahoangphap.com.vn/Images/News/hoangphap_cam-on-nguoi_full_10452020_074534.jpg" alt="Logout Image" class="w-full h-64 object-cover">
+
+            <div class="w-full p-8">
+                <h1 class="text-2xl font-bold">Logout</h1>
+                <p class="mt-4">You have been successfully logged out.</p>
+                <a asp-page="/Index" class="mt-6 inline-block px-6 py-2 text-center text-white bg-blue-500 hover:bg-blue-600 rounded-md transition duration-300">Return to Login</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

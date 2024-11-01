@@ -14,6 +14,7 @@ public partial class PRM392_HomeBuddyContext : DbContext
     {
     }
 
+
     public PRM392_HomeBuddyContext()
 
     {
@@ -69,15 +70,14 @@ public partial class PRM392_HomeBuddyContext : DbContext
                 .HasMaxLength(20);
             entity.Property(e => e.ServiceDate).HasColumnType("datetime");
 
-            entity.HasOne(d => d.Cart).WithMany(p => p.Bookings)
-                .HasForeignKey(d => d.CartId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Booking_Cart");
-
             entity.HasOne(d => d.Helper).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.HelperId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Booking_Helper");
+
+            entity.HasOne(d => d.Service).WithMany(p => p.Bookings)
+                .HasForeignKey(d => d.ServiceId)
+                .HasConstraintName("FK_Booking_Service");
 
             entity.HasOne(d => d.User).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.UserId)

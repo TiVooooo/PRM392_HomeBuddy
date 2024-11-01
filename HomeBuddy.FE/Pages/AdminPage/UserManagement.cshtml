@@ -6,6 +6,13 @@
 
 <!-- Sidebar CSS -->
 <style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f1f3f5;
+        margin: 0;
+        padding: 0;
+    }
+
     #sidebar {
         position: fixed;
         z-index: 20;
@@ -13,11 +20,12 @@
         top: 0;
         left: 0;
         width: 250px;
-        background-color: #f8f9fa;
+        background-color: #343a40; /* Màu nền tối */
         border-right: 1px solid #e0e0e0;
         padding-top: 70px;
         display: flex;
         flex-direction: column;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Đổ bóng cho sidebar */
     }
 
         #sidebar ul {
@@ -30,16 +38,18 @@
             }
 
                 #sidebar ul li a {
-                    color: #333;
+                    color: #ffffff; /* Màu chữ sáng */
                     text-decoration: none;
                     display: flex;
                     align-items: center;
                     font-weight: 500;
+                    padding: 10px; /* Thêm khoảng cách bên trong */
+                    border-radius: 5px; /* Bo góc */
+                    transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu */
                 }
 
                     #sidebar ul li a:hover {
-                        background-color: #e9ecef;
-                        border-radius: 5px;
+                        background-color: #495057; /* Màu nền khi hover */
                     }
 
                     #sidebar ul li a svg {
@@ -58,6 +68,9 @@
         border-collapse: collapse;
         margin-top: 20px;
         background-color: #fff;
+        border-radius: 5px; /* Bo góc cho bảng */
+        overflow: hidden; /* Giúp bo góc cho bảng */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Đổ bóng cho bảng */
     }
 
     th, td {
@@ -67,8 +80,8 @@
     }
 
     th {
-        background-color: #f1f3f5;
-        color: #495057;
+        background-color: #007bff; /* Màu nền cho header */
+        color: #ffffff; /* Màu chữ trắng */
     }
 
     td .status-badge {
@@ -93,14 +106,49 @@
         cursor: pointer;
         text-decoration: underline;
     }
+
+    .card {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hiệu ứng khi hover */
+    }
+
+        .card:hover {
+            transform: translateY(-5px); /* Di chuyển nhẹ khi hover */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Đổ bóng đậm hơn khi hover */
+        }
+
+    /* New styles for the h3 title */
+    .header-title {
+        text-align: center; /* Căn giữa */
+        font-size: 2rem; /* Kích thước lớn hơn */
+        font-weight: bold; /* In đậm */
+        margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+    }
 </style>
 
 <!-- Sidebar HTML -->
 <aside id="sidebar" aria-label="Sidebar">
+    <div class="mt-4 px-4 bg-gray-100 shadow rounded-lg p-4 text-center">
+        @if (HttpContext.Session.GetString("JWTToken") != null)
+        {
+            <span class="font-bold text-lg text-white">Hello, @HttpContext.Session.GetString("UserName")!</span>
+            <form method="post" asp-page="/LogIn&Out/Logout" class="mt-2">
+                <button type="submit" class="bg-red-500 text-white font-semibold rounded-lg px-4 py-2 border border-red-600 hover:bg-red-600 hover:border-red-700 transition duration-300">
+                    Log out
+                </button>
+            </form>
+        }
+        else
+        {
+            <a href="/Index" class="bg-red-500 text-white font-semibold rounded-lg px-4 py-2 border border-red-600 hover:bg-red-600 hover:border-red-700 transition duration-300">Login</a>
+        }
+    </div>
     <div>
         <ul>
             <li>
-                <a href="/AdminPage" class="text-sm text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                <a href="/AdminPage/Dashboard" class="text-sm text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
                     <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20">
                         <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
                         <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
@@ -116,23 +164,25 @@
                     <span class="ml-2">User Management</span>
                 </a>
             </li>
+            <li>
+                <a href="/AdminPage/AdminManageService" class="text-sm text-white font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                    <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M5 3h14a2 2 0 012 2v2h-2V5H5v2H3V5a2 2 0 012-2zm14 6h2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V9h2v10h14V9zm-7 2v4H9v-4h3zm2 0h3v4h-3v-4z"></path>
+                    </svg>
+                    <span class="ml-2">Service Management</span>
+                </a>
+            </li>
+            <li>
+                <a href="/AdminPage/AdminManageBooking" class="text-sm text-white font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                    <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 6h18v2H3V6zm0 4h18v2H3v-2zm6 4h12v2H9v-2zm0 4h8v2H9v-2zM3 14h4v2H3v-2zm0 4h4v2H3v-2z"></path>
+                    </svg>
+                    <span class="ml-2">Booking Management</span>
+                </a>
+            </li>
         </ul>
-        <div class="mt-4 px-4">
-            @if (HttpContext.Session.GetString("JWTToken") != null)
-            {
-                <span>Hello, @HttpContext.Session.GetString("UserName")!</span>
-                <form method="post" asp-page="/LogIn&Out/Logout">
-                    <button type="submit" class="mt-2">Log out</button>
-                </form>
-            }
-            else
-            {
-                <a href="/Signup">Sign Up</a>
-            }
-        </div>
     </div>
 </aside>
-
 <!-- Main Content -->
 <div id="main-content">
     <main>
@@ -164,11 +214,11 @@
                             <td>
                                 <form asp-page-handler="ChangeRole" method="post">
                                     <input type="hidden" name="UserId" value="@user.Id" />
-                                <select asp-for="newRole">
-                                    <option value="User" selected="@(user.Role == "User")">User</option>
-                                    <option value="Manager" selected="@(user.Role == "Manager")">Manager</option>
-                                    <option value="Helper" selected="@(user.Role == "Helper")">Helper</option>
-                                </select>
+                                    <select asp-for="newRole">
+                                        <option value="User" selected="@(user.Role == "User")">User</option>
+                                        <option value="Manager" selected="@(user.Role == "Manager")">Manager</option>
+                                        <option value="Helper" selected="@(user.Role == "Helper")">Helper</option>
+                                    </select>
                                     <button type="submit" class="edit-button">Change role</button>
                                 </form>
                             </td>
@@ -177,26 +227,12 @@
                 }
                 else
                 {
-                    <tr><td colspan="6">No users found.</td></tr>
+                    <tr><td colspan="5">No users found.</td></tr>
                 }
             </tbody>
         </table>
     </main>
 </div>
-<style>
-    /* Existing styles */
-    #main-content {
-        margin-left: 250px;
-        padding: 20px;
-        background-color: #f1f3f5;
-        min-height: 100vh;
-    }
 
-    /* New styles for the h3 title */
-    .header-title {
-        text-align: center; /* Căn giữa */
-        font-size: 2rem; /* Kích thước lớn hơn */
-        font-weight: bold; /* In đậm */
-        margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
-    }
-</style>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+<script src="https://demo.themesberg.com/windster/app.bundle.js"></script>

@@ -27,6 +27,19 @@ namespace HomeBuddy.API.Controllers
             return Ok(await _bookingService.GetBookingByID(id));
         }
 
+
+        [HttpGet("/all/helper/{helperId}")]
+        public async Task<IActionResult> GetAllBookingInHelper(int helperId)
+        {
+            return Ok(await _bookingService.GetAllBookingInHelper(helperId));
+        }
+
+        [HttpGet("/user/{userId}")]
+        public async Task<IActionResult> GetAllBookingInUser(int userId)
+        {
+            return Ok(await _bookingService.GetAllBookingInUser(userId));
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateBooking(int id, [FromForm] UpdateBookingRequest model)
         {

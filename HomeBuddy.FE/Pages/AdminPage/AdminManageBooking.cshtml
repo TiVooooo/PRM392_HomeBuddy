@@ -1,8 +1,9 @@
 ﻿@page
-@model HomeBuddy.FE.Pages.ManagerPage.ServiceManagementModel
+@model HomeBuddy.FE.Pages.AdminPage.AdminManageBookingModel
 @{
-    ViewData["Title"] = "Service Management";
+    ViewData["Title"] = "Admin Manage Booking";
 }
+
 <!-- Sidebar CSS -->
 <style>
     body {
@@ -84,6 +85,23 @@
         color: #ffffff;
     }
 
+    td .status-badge {
+        padding: 5px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .status-confirmed {
+        background-color: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .status-pending {
+        background-color: #f8d7da;
+        color: #842029;
+    }
+
     .header-title {
         text-align: center;
         font-size: 2rem;
@@ -97,6 +115,7 @@
         text-decoration: underline;
     }
 </style>
+
 
 <!-- Sidebar HTML -->
 <aside id="sidebar" aria-label="Sidebar">
@@ -118,15 +137,24 @@
     <div>
         <ul>
             <li>
-                <a href="/ManagerPage/HelperManagement" class="text-sm text-white font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                <a href="/AdminPage/Dashboard" class="text-sm text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
                     <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                        <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                        <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
                     </svg>
-                    <span class="ml-2">Helper Management</span>
+                    <span class="ml-2">Dashboard</span>
                 </a>
             </li>
             <li>
-                <a href="/ManagerPage/ServiceManagement" class="text-sm text-white font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                <a href="/AdminPage/UserManagement" class="text-sm text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                    <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="ml-2">User Management</span>
+                </a>
+            </li>
+            <li>
+                <a href="/AdminPage/AdminManageService" class="text-sm text-white font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
                     <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M5 3h14a2 2 0 012 2v2h-2V5H5v2H3V5a2 2 0 012-2zm14 6h2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V9h2v10h14V9zm-7 2v4H9v-4h3zm2 0h3v4h-3v-4z"></path>
                     </svg>
@@ -134,7 +162,7 @@
                 </a>
             </li>
             <li>
-                <a href="/ManagerPage/BookingManagement" class="text-sm text-white font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                <a href="/AdminPage/AdminManageBooking" class="text-sm text-white font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
                     <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M3 6h18v2H3V6zm0 4h18v2H3v-2zm6 4h12v2H9v-2zm0 4h8v2H9v-2zM3 14h4v2H3v-2zm0 4h4v2H3v-2z"></path>
                     </svg>
@@ -148,90 +176,54 @@
 <!-- Main Content -->
 <div id="main-content">
     <main>
-        <h3 class="header-title">Service Management</h3>
-        <!-- Button to open modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addServiceModal">
-            Add New Service
-        </button>
+        <h3 class="header-title">Booking Management</h3>
         <table>
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Description</th>
+                    <th>Id</th>
                     <th>Price</th>
-                    <th>Duration</th>
-                    <th>Helper Name</th>
-                    <th>Image</th>
+                    <th>Booking Date</th>
+                    <th>Booking Time</th>
+                    <th>Service Date</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th>Note</th>
+                    <th>Status</th>
+                    <th>Helper</th>
+                    <th>User Name</th>
+                    <th>Service</th>
                 </tr>
             </thead>
             <tbody>
-                @if (Model.Services != null && Model.Services.Count > 0)
+                @if (Model.Bookings != null && Model.Bookings.Count > 0)
                 {
-                    foreach (var service in Model.Services)
+                    foreach (var booking in Model.Bookings)
                     {
                         <tr>
-                            <td>@service.Name</td>
-                            <td>@service.Description</td>
-                            <td>@service.Price</td>
-                            <td>@service.Duration</td>
-                            <td>@service.HelperName</td>
+                            <td>@booking.Id</td>
+                            <td>@booking.Price.ToString("C")</td>
+                            <td>@booking.BookingDate</td>
+                            <td>@booking.BookingTime</td>
+                            <td>@booking.ServiceDate</td>
+                            <td>@booking.Address</td>
+                            <td>@booking.Phone</td>
+                            <td>@booking.Note</td>
                             <td>
-                                <img src="@service.Image" alt="@service.Name" style="width: 100px; height: auto;" />
+                                <span class="status-badge @(booking.Status == 1 ? "status-confirmed" : "status-pending")">
+                                    @(booking.Status == 1 ? "Confirmed" : "Pending")
+                                </span>
                             </td>
+                            <td>@booking.HelperName</td>
+                            <td>@booking.UserName</td>
+                            <td>@booking.ServiceName</td>
                         </tr>
                     }
                 }
                 else
                 {
-                    <tr><td colspan="6">No Services found.</td></tr>
+                    <tr><td colspan="12">No bookings found.</td></tr>
                 }
             </tbody>
         </table>
     </main>
-</div>
-
-<!-- Modal for adding new service -->
-<div id="addServiceModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Add New Service</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="post" asp-page-handler="AddService">
-                    <div class="form-group">
-                        <label for="serviceName">Name</label>
-                        <input type="text" class="form-control" name="Name" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="serviceDescription">Description</label>
-                        <textarea class="form-control" name="Description" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="servicePrice">Price</label>
-                        <input type="number" class="form-control" name="Price" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="serviceDuration">Duration</label>
-                        <input type="text" class="form-control" name="Duration" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="serviceHelper">Helper Name</label>
-                        <input type="text" class="form-control" name="HelperName" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="serviceImage">Image</label>
-                        <input type="file" class="form-control-file" name="Image" required />
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add Service</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
 </div>
