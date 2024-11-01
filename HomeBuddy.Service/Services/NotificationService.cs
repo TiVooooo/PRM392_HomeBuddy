@@ -45,7 +45,7 @@ namespace HomeBuddy.Service.Services
 
         public async Task<List<NotiModel>> GetNotification(int id)
         {
-            var list =  await _unitOfWork.NotificationRepository.GetAllNotificationRepo();
+            var list =  await _unitOfWork.NotificationRepository.GetAllAsync();
             var noti = list.Where(x => x.UserId == id).ToList();
             var result = new List<NotiModel>();
             foreach (var item in noti) {

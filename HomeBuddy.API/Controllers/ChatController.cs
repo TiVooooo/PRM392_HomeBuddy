@@ -22,6 +22,22 @@ namespace HomeBuddy.API.Controllers
             return Ok(result.Data);
         }
 
+        [HttpGet("userid/{userid}")]
+        public async Task<IActionResult> GetChatFromUserId(int userid)
+        {
+            var result = await _chatService.GetChatFromUserId(userid);
+
+            return Ok(result.Data);
+        }
+
+        [HttpGet("chatid/{chatid}")]
+        public async Task<IActionResult> GetAllMessageFromChat(int chatid)
+        {
+            var result = await _chatService.GetAllMessageFromChat(chatid);
+
+            return Ok(result.Data);
+        }
+
         [HttpPost]
         public async Task<IActionResult> SendMessage([FromBody] MessageRequest messageRequest)
         {

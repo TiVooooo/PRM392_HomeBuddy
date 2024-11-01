@@ -18,6 +18,8 @@ namespace HomeBuddy.Service.Services
     {
         Task<IBusinessResult> GetAllChat();
         Task<IBusinessResult> SendMessage(MessageRequest request);
+        Task<IBusinessResult> GetChatFromUserId(int userid);
+        Task<IBusinessResult> GetAllMessageFromChat(int chatid);
     }
 
     public class ChatService : IChatService
@@ -76,6 +78,26 @@ namespace HomeBuddy.Service.Services
             await _unitOfWork.MessageRepository.CreateAsync(message);
 
             return new BusinessResult(Const.SUCCESS_CREATE, "Message sent successfully");
+        }
+
+        public async Task<IBusinessResult> GetChatFromUserId(int userid)
+        {
+            var chatresponse = await _unitOfWork.ChatRepository.FindByConditionAsync(x => x.SenderId == userid || x.ReceiverId == userid);
+            if (chatresponse == null || !chatresponse.Any())
+            {
+                return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
+            }
+            return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, chatresponse);
+        }
+
+        public async Task<IBusinessResult> GetAllMessageFromChat(int chatid)
+        {
+            var chatresponse = await _unitOfWork.MessageRepository.FindByConditionAsync(x => x.ChatId == chatid);
+            if (chatresponse == null || !chatresponse.Any())
+            {
+                return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
+            }
+            return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, chatresponse);
         }
 
     }
