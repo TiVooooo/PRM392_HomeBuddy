@@ -12,5 +12,6 @@ namespace HomeBuddy.Service.Model.ResponseDTO
         public string MessageText { get; set; }
         public DateTime SentTime { get; set; }
         public int SenderId { get; set; }
+        public string SenderName { get; set; }
     }
 }

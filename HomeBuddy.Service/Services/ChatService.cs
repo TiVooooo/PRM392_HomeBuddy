@@ -37,12 +37,15 @@ namespace HomeBuddy.Service.Services
                 Id = c.Id,
                 SenderId = c.SenderId,
                 ReceiverId = c.ReceiverId,
+                receiverName = c.Receiver.Name,
+                senderName = c.Sender.Name,
                 Messages = c.Messages.Select(m => new MessageResponse
                 {
                     Id = m.Id,
                     MessageText = m.MessageText,
                     SentTime = m.SentTime,
-                    SenderId = m.SenderId
+                    SenderId = m.SenderId,
+                    SenderName = m.Sender.Name
                 }).ToList()
             }).ToList();
 
@@ -83,6 +86,21 @@ namespace HomeBuddy.Service.Services
         public async Task<IBusinessResult> GetChatFromUserId(int userid)
         {
             var chatresponse = await _unitOfWork.ChatRepository.FindByConditionAsync(x => x.SenderId == userid || x.ReceiverId == userid);
+            var chatDto = chatresponse.Select(c => new ChatResponse
+            {
+                Id = c.Id,
+                SenderId = c.SenderId,
+                ReceiverId = c.ReceiverId,
+                receiverName = c.Receiver.Name,
+                senderName = c.Sender.Name,
+                Messages = c.Messages.Select(m => new MessageResponse
+                {
+                    Id = m.Id,
+                    MessageText = m.MessageText,
+                    SentTime = m.SentTime,
+                    SenderId = m.SenderId
+                }).ToList()
+            }).ToList();
             if (chatresponse == null || !chatresponse.Any())
             {
                 return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
@@ -92,12 +110,21 @@ namespace HomeBuddy.Service.Services
 
         public async Task<IBusinessResult> GetAllMessageFromChat(int chatid)
         {
-            var chatresponse = await _unitOfWork.MessageRepository.FindByConditionAsync(x => x.ChatId == chatid);
+            var chatresponse = await _unitOfWork.MessageRepository.GetAllMessageByChatId(chatid).ToListAsync();         
+           
+            var chatDto = chatresponse.Select(c => new MessageResponse
+            {
+                Id = c.Id,
+                MessageText = c.MessageText,
+                SentTime = c.SentTime,
+                SenderId = c.SenderId,
+                SenderName = c.Sender.Name
+            }).ToList();
             if (chatresponse == null || !chatresponse.Any())
             {
                 return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
             }
-            return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, chatresponse);
+            return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, chatDto);
         }
 
     }
