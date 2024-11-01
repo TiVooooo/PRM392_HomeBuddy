@@ -20,7 +20,10 @@ namespace HomeBuddy.Service.Model.ResponseDTO
         public double Longitude { get; set; }
         public double Latitude { get; set; }
         public string HelperName { get; set; }
+        public string HelperAvt { get; set; }
         public string UserName { get; set; }
+        public string UserAvt { get; set; }
         public string ServiceName { get; set; }
+        public int Rating {  get; set; }
     }
 }
