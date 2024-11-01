@@ -1,4 +1,5 @@
-﻿using HomeBuddy.Data.UnitOfWork;
+﻿using HomeBuddy.Common;
+using HomeBuddy.Data.UnitOfWork;
 using HomeBuddy.Service.Base;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace HomeBuddy.Service.Services
     {
         public Task<IBusinessResult> GetAll();
         public Task<IBusinessResult> GetById(int id);
+        Task<IBusinessResult> ChangeStatus(int helperId);
     }
     public class HelperService : IHelperService
     {
@@ -21,10 +23,31 @@ namespace HomeBuddy.Service.Services
         {
             _unitOfWork = unitOfWork; 
         }
+        public async Task<IBusinessResult> ChangeStatus(int helperId)
+        {
+            var helper = await _unitOfWork.HelperRepository.GetByIdAsync(helperId);
 
+            if (helper == null)
+            {
+                return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
+            }
+
+            if(helper.Status == true)
+            {
+                helper.Status = false;
+            }
+            else
+            {
+                helper.Status = true;
+            }
+
+            await _unitOfWork.HelperRepository.UpdateAsync(helper);
+
+            return new BusinessResult(Const.SUCCESS_UDATE, $"Status updated successfully", helper);
+        }
         public async Task<IBusinessResult> GetAll()
         {
-            var helpers = await _unitOfWork.HelperRepository.GetAllAsync();
+            var helpers = await _unitOfWork.HelperRepository.GetHelpersWithParentAsync();
 
             return new BusinessResult(200, "Get all helpers!", helpers);
         }

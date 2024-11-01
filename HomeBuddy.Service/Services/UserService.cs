@@ -37,7 +37,7 @@ namespace HomeBuddy.Service.Services
 
         public async Task<IBusinessResult> GetAll()
         {
-            var users = await _unitOfWork.UserRepository.GetAllAsync();
+            var users = await _unitOfWork.UserRepository.GetAllExceptAdminAsync();
 
             return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, users);
         }

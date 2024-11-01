@@ -1,0 +1,205 @@
+﻿@page
+@model HomeBuddy.FE.Pages.ManagerPage.HelperManagerMentModel
+@{
+    ViewData["Title"] = "HelperManagement";
+}
+<!-- Sidebar CSS -->
+<style>
+    #sidebar {
+        position: fixed;
+        z-index: 20;
+        height: 100%;
+        top: 0;
+        left: 0;
+        width: 250px;
+        background-color: #f8f9fa;
+        border-right: 1px solid #e0e0e0;
+        padding-top: 70px;
+        display: flex;
+        flex-direction: column;
+    }
+
+        #sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+            #sidebar ul li {
+                padding: 10px 20px;
+            }
+
+                #sidebar ul li a {
+                    color: #333;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    font-weight: 500;
+                }
+
+                    #sidebar ul li a:hover {
+                        background-color: #e9ecef;
+                        border-radius: 5px;
+                    }
+
+                    #sidebar ul li a svg {
+                        margin-right: 10px;
+                    }
+
+    #main-content {
+        margin-left: 250px;
+        padding: 20px;
+        background-color: #f1f3f5;
+        min-height: 100vh;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #fff;
+    }
+
+    th, td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f1f3f5;
+        color: #495057;
+    }
+
+    td .status-badge {
+        padding: 5px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .status-male {
+        background-color: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .status-female {
+        background-color: #f8d7da;
+        color: #842029;
+    }
+
+    .edit-button {
+        color: #ffc107;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+</style>
+
+<!-- Sidebar HTML -->
+<aside id="sidebar" aria-label="Sidebar">
+    <div>
+        <ul>
+            <li>
+                <a href="/ManagerPage/HelperManagement" class="text-sm text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                    <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
+                        <path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path>
+                    </svg>
+                    <span class="ml-2">Helper Management</span>
+                </a>
+            </li>
+            <li>
+                <a href="/ManagerPage/ServiceManagement" class="text-sm text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                    <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="ml-2">Service Management</span>
+                </a>
+            </li>
+            <li>
+                <a href="/ManagerPage/BookingManagement" class="text-sm text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                    <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="ml-2">Booking Management</span>
+                </a>
+            </li>
+        </ul>
+        <div class="mt-4 px-4">
+            @if (HttpContext.Session.GetString("JWTToken") != null)
+            {
+                <span>Hello, @HttpContext.Session.GetString("UserName")!</span>
+                <form method="post" asp-page="/LogIn&Out/Logout">
+                    <button type="submit" class="mt-2">Log out</button>
+                </form>
+            }
+            else
+            {
+                <a href="/Signup">Sign Up</a>
+            }
+        </div>
+    </div>
+</aside>
+
+<!-- Main Content -->
+<div id="main-content">
+    <main>
+        <h3 class="header-title">Helper Management</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Gender</th>
+                    <th>Status</th>
+                    <th>Skill</th>
+                    <th>Manage by</th>
+                </tr>
+            </thead>
+            <tbody>
+    @if (Model.Helpers != null && Model.Helpers.Count > 0)
+    {
+        foreach (var helpers in Model.Helpers)
+        {
+            <tr>
+                <td>@helpers.User?.Name</td>
+                <td>@helpers.User?.Email</td>
+                <td>@helpers.User?.Phone</td>
+                <td>
+                    <span class="status-badge @(helpers.User?.Gender == true ? "status-male" : "status-female")">
+                        @(helpers.User?.Gender == true ? "Male" : "Female")
+                    </span>
+                </td>
+                <td>@(helpers.Status ? "Active" : "Inactive")</td>
+                <td>@helpers.Skill</td>
+                <td>@helpers.User?.Parent?.Name</td>
+
+            </tr>
+        }
+    }
+    else
+    {
+        <tr><td colspan="7">No helpers found.</td></tr>
+    }
+</tbody>
+        </table>
+    </main>
+</div>
+<style>
+    /* Existing styles */
+    #main-content {
+        margin-left: 250px;
+        padding: 20px;
+        background-color: #f1f3f5;
+        min-height: 100vh;
+    }
+
+    /* New styles for the h3 title */
+    .header-title {
+        text-align: center; /* Căn giữa */
+        font-size: 2rem; /* Kích thước lớn hơn */
+        font-weight: bold; /* In đậm */
+        margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+    }
+</style>
