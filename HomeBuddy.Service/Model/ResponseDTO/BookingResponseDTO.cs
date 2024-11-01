@@ -12,6 +12,7 @@ namespace HomeBuddy.Service.Model.ResponseDTO
         public double Price { get; set; }
         public string BookingDate { get; set; }
         public string BookingTime { get; set; }
+        public string ServiceDate { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
         public string Note { get; set; }
@@ -20,6 +21,5 @@ namespace HomeBuddy.Service.Model.ResponseDTO
         public double Latitude { get; set; }
         public string HelperName { get; set; }
         public string UserName { get; set; }
-        public int CartID {  get; set; }
     }
 }

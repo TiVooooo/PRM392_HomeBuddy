@@ -51,6 +51,7 @@ namespace HomeBuddy.Service.Services
                     Price = b.Price,
                     BookingDate = b.BookingDay.ToString("yyyy-mm-dd"),
                     BookingTime = b.BookingDay.ToString("HH:mm:ss"),
+                    ServiceDate = b.ServiceDate.ToString("yyyy-mm-dd"),
                     Address = b.Address,
                     Phone = b.Phone,
                     Note = b.Note,
@@ -59,7 +60,6 @@ namespace HomeBuddy.Service.Services
                     Latitude = b.Latitude,
                     HelperName = b.Helper.User.Name,
                     UserName = b.User.Name,
-                    CartID = b.CartId
                 });
 
                 return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, response);
@@ -86,6 +86,7 @@ namespace HomeBuddy.Service.Services
                     Price = booking.Price,
                     BookingDate = booking.BookingDay.ToString("yyyy-mm-dd"),
                     BookingTime = booking.BookingDay.ToString("HH:mm:ss"),
+                    ServiceDate = booking.ServiceDate.ToString("HH:mm:ss"),
                     Address = booking.Address,
                     Phone = booking.Phone,
                     Note = booking.Note,
@@ -94,7 +95,6 @@ namespace HomeBuddy.Service.Services
                     Latitude = booking.Latitude,
                     HelperName = booking.Helper.User.Name,
                     UserName = booking.User.Name,
-                    CartID = booking.CartId
                 };
 
                 return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, response);
@@ -135,10 +135,8 @@ namespace HomeBuddy.Service.Services
                     Phone = model.Phone,
                     Note = model.Note,
                     Status = (int) BookingStatusEnums.PENDING,
-                    LongItude = model.LongItude,
-                    Latitude = model.Latitude,
+                    ServiceDate = model.ServiceDate,
                     HelperId = model.HelperId,
-                    CartId = model.CartId,
                     UserId = model.UserId,
                 };
 
@@ -161,7 +159,6 @@ namespace HomeBuddy.Service.Services
                         Latitude = booking.Latitude,
                         HelperName = booking.Helper.User.Name,
                         UserName = booking.User.Name,
-                        CartID = booking.CartId
                     });
 
                     return new BusinessResult(Const.SUCCESS_CREATE, Const.SUCCESS_CREATE_MSG, response);
@@ -206,7 +203,6 @@ namespace HomeBuddy.Service.Services
                 booking.LongItude = model.LongItude ?? booking.LongItude;
                 booking.Latitude = model.Latitude ?? booking.Latitude;
                 booking.HelperId = model.HelperId ?? booking.HelperId;
-                booking.CartId = model.CartId ?? booking.CartId;
 
                 var result = await _unitOfWork.BookingRepository.UpdateAsync(booking);
                 if (result > 0)
@@ -225,7 +221,6 @@ namespace HomeBuddy.Service.Services
                         Latitude = booking.Latitude,
                         HelperName = booking.Helper.User.Name,
                         UserName = booking.User.Name,
-                        CartID = booking.CartId
                     };
 
                     return new BusinessResult(Const.SUCCESS_UDATE, Const.SUCCESS_UDATE_MSG, response);
