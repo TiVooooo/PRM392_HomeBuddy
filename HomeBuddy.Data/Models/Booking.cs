@@ -33,9 +33,11 @@ public partial class Booking
 
     public DateTime? ServiceDate { get; set; }
 
-    public virtual Cart Cart { get; set; }
+    public int? ServiceId { get; set; }
 
     public virtual Helper Helper { get; set; }
+
+    public virtual Service Service { get; set; }
 
     public virtual User User { get; set; }
 }

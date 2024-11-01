@@ -19,8 +19,6 @@ public partial class Cart
 
     public int ServiceId { get; set; }
 
-    public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
-
     public virtual Service Service { get; set; }
 
     public virtual User User { get; set; }
