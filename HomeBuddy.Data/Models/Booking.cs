@@ -27,11 +27,9 @@ public partial class Booking
 
     public int HelperId { get; set; }
 
-    public int CartId { get; set; }
-
     public int UserId { get; set; }
 
-    public DateTime? ServiceDate { get; set; }
+    public DateTime ServiceDate { get; set; }
 
     public int? ServiceId { get; set; }
 
