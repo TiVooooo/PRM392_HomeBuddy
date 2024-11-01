@@ -1,0 +1,54 @@
+﻿@page "/Login"
+@model HomeBuddy.FE.Pages.Login_Out.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-sans bg-gray-100">
+    <div class="py-16">
+        <div class="flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-4xl">
+            <div class="hidden lg:block lg:w-1/2 bg-cover" style="background-image:url('https://tinphatnhatrang.com/storage/pagedata/100442/img/images/product/6_giup-viec-nha-theo-gio.jpg')">
+            </div>
+            <div class="w-full p-8 lg:w-1/2">
+                <form method="post">
+                    <div class="mt-4">
+                        <label asp-for="LoginRequest.Email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                        <input asp-for="LoginRequest.Email" class="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none" type="text" required />
+                        <span asp-validation-for="LoginRequest.Email" class="text-red-500 text-xs"></span>
+                    </div>
+                    <div class="mt-4">
+                        <div class="flex justify-between">
+                            <label asp-for="LoginRequest.Password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                        </div>
+                        <input asp-for="LoginRequest.Password" class="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none" type="password" required />
+                        <span asp-validation-for="LoginRequest.Password" class="text-red-500 text-xs"></span>
+                    </div>
+                    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                    {
+                        <div class="mt-4 text-red-500 text-sm">
+                            @Model.ErrorMessage
+                        </div>
+                    }
+                    @if (!ModelState.IsValid)
+                    {
+                        <div class="mt-4 text-red-500">
+                            <span asp-validation-summary="All"></span>
+                        </div>
+                    }
+                    <div class="mt-8">
+                        <button type="submit" class="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600">Sign in</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

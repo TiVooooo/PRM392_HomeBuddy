@@ -48,7 +48,8 @@ namespace HomeBuddy.Service.Services
             var list =  await _unitOfWork.NotificationRepository.GetAllAsync();
             var noti = list.Where(x => x.UserId == id).ToList();
             var result = new List<NotiModel>();
-            foreach (var item in noti) {
+            foreach (var item in noti)
+            {
                 var notiModel = new NotiModel
                 {
                     Date = item.Date.ToString("dd-MM-yyyy"),
@@ -59,7 +60,7 @@ namespace HomeBuddy.Service.Services
                 };
                 result.Add(notiModel);
             }
-            
+
             if (result == null)
             {
                 return null;

@@ -1,0 +1,237 @@
+﻿@page
+@model HomeBuddy.FE.Pages.ManagerPage.ServiceManagementModel
+@{
+    ViewData["Title"] = "Service Management";
+}
+<!-- Sidebar CSS -->
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f1f3f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    #sidebar {
+        position: fixed;
+        z-index: 20;
+        height: 100%;
+        top: 0;
+        left: 0;
+        width: 250px;
+        background-color: #343a40;
+        border-right: 1px solid #e0e0e0;
+        padding-top: 70px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+        #sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+            #sidebar ul li {
+                padding: 10px 20px;
+            }
+
+                #sidebar ul li a {
+                    color: #ffffff;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    font-weight: 500;
+                    padding: 10px;
+                    border-radius: 5px;
+                    transition: background-color 0.3s ease;
+                }
+
+                    #sidebar ul li a:hover {
+                        background-color: #495057;
+                    }
+
+                    #sidebar ul li a svg {
+                        margin-right: 10px;
+                    }
+
+    #main-content {
+        margin-left: 250px;
+        padding: 20px;
+        background-color: #f1f3f5;
+        min-height: 100vh;
+        transition: margin-left 0.3s ease;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+        padding: 12px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    th {
+        background-color: #007bff;
+        color: #ffffff;
+    }
+
+    .header-title {
+        text-align: center;
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .edit-button {
+        color: #ffc107;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+</style>
+
+<!-- Sidebar HTML -->
+<aside id="sidebar" aria-label="Sidebar">
+    <div class="mt-4 px-4 bg-gray-100 shadow rounded-lg p-4 text-center">
+        @if (HttpContext.Session.GetString("JWTToken") != null)
+        {
+            <span class="font-bold text-lg text-white">Hello, @HttpContext.Session.GetString("UserName")!</span>
+            <form method="post" asp-page="/LogIn&Out/Logout" class="mt-2">
+                <button type="submit" class="bg-red-500 text-white font-semibold rounded-lg px-4 py-2 border border-red-600 hover:bg-red-600 hover:border-red-700 transition duration-300">
+                    Log out
+                </button>
+            </form>
+        }
+        else
+        {
+            <a href="/Index" class="bg-red-500 text-white font-semibold rounded-lg px-4 py-2 border border-red-600 hover:bg-red-600 hover:border-red-700 transition duration-300">Login</a>
+        }
+    </div>
+    <div>
+        <ul>
+            <li>
+                <a href="/ManagerPage/HelperManagement" class="text-sm text-white font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                    <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="ml-2">Helper Management</span>
+                </a>
+            </li>
+            <li>
+                <a href="/ManagerPage/ServiceManagement" class="text-sm text-white font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                    <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M5 3h14a2 2 0 012 2v2h-2V5H5v2H3V5a2 2 0 012-2zm14 6h2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V9h2v10h14V9zm-7 2v4H9v-4h3zm2 0h3v4h-3v-4z"></path>
+                    </svg>
+                    <span class="ml-2">Service Management</span>
+                </a>
+            </li>
+            <li>
+                <a href="/ManagerPage/BookingManagement" class="text-sm text-white font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group">
+                    <svg class="w-5 h-5 text-gray-500 group-hover:text-gray-900 transition duration-75" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 6h18v2H3V6zm0 4h18v2H3v-2zm6 4h12v2H9v-2zm0 4h8v2H9v-2zM3 14h4v2H3v-2zm0 4h4v2H3v-2z"></path>
+                    </svg>
+                    <span class="ml-2">Booking Management</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>
+
+<!-- Main Content -->
+<div id="main-content">
+    <main>
+        <h3 class="header-title">Service Management</h3>
+        <!-- Button to open modal -->
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addServiceModal">
+            Add New Service
+        </button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Duration</th>
+                    <th>Helper Name</th>
+                    <th>Image</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Services != null && Model.Services.Count > 0)
+                {
+                    foreach (var service in Model.Services)
+                    {
+                        <tr>
+                            <td>@service.Name</td>
+                            <td>@service.Description</td>
+                            <td>@service.Price</td>
+                            <td>@service.Duration</td>
+                            <td>@service.HelperName</td>
+                            <td>
+                                <img src="@service.Image" alt="@service.Name" style="width: 100px; height: auto;" />
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="6">No Services found.</td></tr>
+                }
+            </tbody>
+        </table>
+    </main>
+</div>
+
+<!-- Modal for adding new service -->
+<div id="addServiceModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add New Service</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-page-handler="AddService">
+                    <div class="form-group">
+                        <label for="serviceName">Name</label>
+                        <input type="text" class="form-control" name="Name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="serviceDescription">Description</label>
+                        <textarea class="form-control" name="Description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="servicePrice">Price</label>
+                        <input type="number" class="form-control" name="Price" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="serviceDuration">Duration</label>
+                        <input type="text" class="form-control" name="Duration" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="serviceHelper">Helper Name</label>
+                        <input type="text" class="form-control" name="HelperName" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="serviceImage">Image</label>
+                        <input type="file" class="form-control-file" name="Image" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Service</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

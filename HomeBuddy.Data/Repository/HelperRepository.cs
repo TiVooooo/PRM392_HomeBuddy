@@ -1,5 +1,6 @@
 ﻿using HomeBuddy.Data.Base;
 using HomeBuddy.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,13 @@ namespace HomeBuddy.Data.Repository
         public HelperRepository(PRM392_HomeBuddyContext context)
         {
             _context = context;
+        }
+        public async Task<List<Helper>> GetHelpersWithParentAsync()
+        {
+            return await _context.Helpers
+                                 .Include(h => h.User)
+                                 .ThenInclude(u => u.Parent)
+                                 .ToListAsync();
         }
     }
 }

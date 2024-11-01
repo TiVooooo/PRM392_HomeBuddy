@@ -23,6 +23,8 @@ namespace HomeBuddy.Service.Services
         Task<IBusinessResult> EditAvatar(int id, IFormFile avatar);
         Task<IBusinessResult> CreateHelper(CreateHelperDTO request);
         Task<IBusinessResult> ChangeRole(int userId, string newRole);
+        Task<IBusinessResult> UpdateParentId(int helperId, int parentId);
+        Task<IBusinessResult> GetAllManager();
     }
 
     public class UserService : IUserService
@@ -31,13 +33,31 @@ namespace HomeBuddy.Service.Services
         private readonly IFirebaseService _firebaseService;
         public UserService(UnitOfWork unitOfWork, IFirebaseService firebaseService)
         {
-            _unitOfWork = unitOfWork;            _firebaseService = firebaseService;
+            _unitOfWork = unitOfWork;
+            _firebaseService = firebaseService;
 
         }
+        public async Task<IBusinessResult> GetAllManager()
+        {
+            var users = await _unitOfWork.UserRepository.GetAllExceptAdminAsync();
+            users = users.Where(x=>x.Role.Equals("Manager")).ToList();
 
+            return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, users);
+        }
+        public async Task<IBusinessResult> UpdateParentId(int userId, int parentId)
+        {
+            var user = await _unitOfWork.UserRepository.GetByIdAsync(userId);
+            if (user == null)
+            {
+                return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
+            }
+            user.ParentId = parentId;
+            await _unitOfWork.UserRepository.UpdateAsync(user);
+            return new BusinessResult(Const.SUCCESS_UDATE, $"ParentId updated successfully", user);
+        }
         public async Task<IBusinessResult> GetAll()
         {
-            var users = await _unitOfWork.UserRepository.GetAllAsync();
+            var users = await _unitOfWork.UserRepository.GetAllExceptAdminAsync();
 
             return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, users);
         }

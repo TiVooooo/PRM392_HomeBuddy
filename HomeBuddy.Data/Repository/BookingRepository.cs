@@ -26,6 +26,13 @@ namespace HomeBuddy.Data.Repository
                 .Include(b => b.Helper)
                 .Include(b => b.Service);
         }
-
+        public async Task<int> CountBooking()
+        {
+            return await _context.Bookings.CountAsync();
+        }
+        public async Task<double> GetTotal()
+        {
+            return await _context.Bookings.SumAsync(b => b.Price);
+        }
     }
 }

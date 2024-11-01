@@ -1,5 +1,6 @@
 ﻿using HomeBuddy.Data.Base;
 using HomeBuddy.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,16 @@ namespace HomeBuddy.Data.Repository
         {
             _context = context;
         }
+        public async Task<List<User>> GetAllExceptAdminAsync()
+        {
+            return await _context.Set<User>()
+                                 .Where(u => u.Role != "Admin")
+                                 .ToListAsync();
+        }
+        public async Task<int> CountUsersExceptAdminAsync()
+        {
+            return await _context.Users.CountAsync(u => u.Role != "Admin");
+        }
+
     }
 }

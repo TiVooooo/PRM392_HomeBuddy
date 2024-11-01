@@ -2,6 +2,7 @@
 using HomeBuddy.Service.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.Design;
 
 namespace HomeBuddy.API.Controllers
 {
@@ -14,7 +15,12 @@ namespace HomeBuddy.API.Controllers
         {
             _userService = userService;
         }
-
+        [HttpPut("parentId")]
+        public async Task<IActionResult> UpdateParentId(int userId, int parentId)
+        {
+            var result = await _userService.UpdateParentId(userId, parentId);
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -73,6 +79,13 @@ namespace HomeBuddy.API.Controllers
         public async Task<IActionResult> ChangeRole(int id, string newRole)
         {
             var result = await _userService.ChangeRole(id, newRole);
+
+            return Ok(result);
+        }
+        [HttpGet("manager")]
+        public async Task<IActionResult> GetAllManager()
+        {
+            var result = await _userService.GetAllManager();
 
             return Ok(result);
         }
