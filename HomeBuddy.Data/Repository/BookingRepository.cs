@@ -24,7 +24,7 @@ namespace HomeBuddy.Data.Repository
                 .Include(b => b.Helper)
                        .ThenInclude(b => b.User)
                 .Include(b => b.Helper)
-                .Include(b => b.Cart);
+                .Include(b => b.Service);
         }
 
     }
