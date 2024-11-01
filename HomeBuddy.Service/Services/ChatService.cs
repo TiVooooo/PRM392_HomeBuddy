@@ -37,8 +37,6 @@ namespace HomeBuddy.Service.Services
                 Id = c.Id,
                 SenderId = c.SenderId,
                 ReceiverId = c.ReceiverId,
-                receiverName = c.Receiver.Name,
-                senderName = c.Sender.Name,
                 Messages = c.Messages.Select(m => new MessageResponse
                 {
                     Id = m.Id,
@@ -85,21 +83,13 @@ namespace HomeBuddy.Service.Services
 
         public async Task<IBusinessResult> GetChatFromUserId(int userid)
         {
-            var chatresponse = await _unitOfWork.ChatRepository.FindByConditionAsync(x => x.SenderId == userid || x.ReceiverId == userid);
+            var chat = await _unitOfWork.ChatRepository.GetAllAsync();
+            var chatresponse = chat.Where(x => x.SenderId == userid || x.ReceiverId == userid).ToList();
             var chatDto = chatresponse.Select(c => new ChatResponse
             {
                 Id = c.Id,
                 SenderId = c.SenderId,
                 ReceiverId = c.ReceiverId,
-                receiverName = c.Receiver.Name,
-                senderName = c.Sender.Name,
-                Messages = c.Messages.Select(m => new MessageResponse
-                {
-                    Id = m.Id,
-                    MessageText = m.MessageText,
-                    SentTime = m.SentTime,
-                    SenderId = m.SenderId
-                }).ToList()
             }).ToList();
             if (chatresponse == null || !chatresponse.Any())
             {
