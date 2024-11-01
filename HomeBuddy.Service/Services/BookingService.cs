@@ -25,6 +25,10 @@ namespace HomeBuddy.Service.Services
         Task<BookingResponseDTO> UpdateBooking(int bookingID, UpdateBookingRequest model);
 
         Task<Booking> DeleteBooking(int id);
+       Task<List<BookingResponseDTO>> GetAllBookingInHelper(int helperId);
+        Task<List<BookingResponseDTO>> GetAllBookingInUser(int userId);
+
+
     }
 
     public class BookingService : IBookingService
@@ -64,7 +68,7 @@ namespace HomeBuddy.Service.Services
                 });
 
                 return response.ToList();
-            } 
+            }
             catch (Exception ex)
             {
                 return new List<BookingResponseDTO>();
@@ -76,7 +80,7 @@ namespace HomeBuddy.Service.Services
             try
             {
                 var booking = await _unitOfWork.BookingRepository.GetAllBookingsWithOthers().Where(b => b.Id == id).FirstOrDefaultAsync();
-                if(booking == null)
+                if (booking == null)
                 {
                     return null;
                 }
@@ -101,7 +105,7 @@ namespace HomeBuddy.Service.Services
 
                 return response;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return null;
             }
@@ -130,7 +134,7 @@ namespace HomeBuddy.Service.Services
                     Address = model.Address,
                     Phone = model.Phone,
                     Note = model.Note,
-                    Status = (int) BookingStatusEnums.PENDING,
+                    Status = (int)BookingStatusEnums.PENDING,
                     ServiceDate = model.ServiceDate,
                     HelperId = model.HelperId,
                     UserId = model.UserId,
@@ -142,31 +146,31 @@ namespace HomeBuddy.Service.Services
                     var bookings = _unitOfWork.BookingRepository.GetAllBookingsWithOthers();
                     var response = bookings.Where(b => b.Id == newBookings.Id)
                                            .Select(booking => new BookingResponseDTO
-                    {
-                        Id = booking.Id,
-                        Price = booking.Price,
-                        BookingDate = booking.BookingDay.ToString("yyyy-mm-dd"),
-                        BookingTime = booking.BookingDay.ToString("HH:mm:ss"),
-                        Address = booking.Address,
-                        Phone = booking.Phone,
-                        Note = booking.Note,
-                        Status = booking.Status,
-                        Longitude = booking.LongItude,
-                        Latitude = booking.Latitude,
-                        HelperName = booking.Helper.User.Name,
-                        UserName = booking.User.Name,
-                        ServiceName = booking.Service.Name,
-                        ServiceDate = booking.ServiceDate.ToString("yyyy-MM-dd HH:mm:ss")
+                                           {
+                                               Id = booking.Id,
+                                               Price = booking.Price,
+                                               BookingDate = booking.BookingDay.ToString("yyyy-mm-dd"),
+                                               BookingTime = booking.BookingDay.ToString("HH:mm:ss"),
+                                               Address = booking.Address,
+                                               Phone = booking.Phone,
+                                               Note = booking.Note,
+                                               Status = booking.Status,
+                                               Longitude = booking.LongItude,
+                                               Latitude = booking.Latitude,
+                                               HelperName = booking.Helper.User.Name,
+                                               UserName = booking.User.Name,
+                                               ServiceName = booking.Service.Name,
+                                               ServiceDate = booking.ServiceDate.ToString("yyyy-MM-dd HH:mm:ss")
                                            });
 
                     return (BookingResponseDTO)response;
-                } 
+                }
                 else
                 {
                     return null;
                 }
-            } 
-            catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return null;
             }
@@ -224,7 +228,7 @@ namespace HomeBuddy.Service.Services
                     return null;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return null;
             }
@@ -258,6 +262,88 @@ namespace HomeBuddy.Service.Services
                 return null;
             }
         }
+
+
+        public async Task<List<BookingResponseDTO>> GetAllBookingInUser(int userId)
+        {
+            try
+            {
+                var bookings = _unitOfWork.BookingRepository.GetAllBookingsWithOthers();
+                var result = bookings.Where(x => x.UserId == userId).ToList();
+                if (result.Count() <= 0)
+                {
+                    return new List<BookingResponseDTO>();
+                }
+
+                var response = result.Select(b => new BookingResponseDTO
+                {
+                    Id = b.Id,
+                    Price = b.Price,
+                    BookingDate = b.BookingDay.ToString("yyyy-mm-dd"),
+                    BookingTime = b.BookingDay.ToString("HH:mm:ss"),
+                    ServiceDate = b.ServiceDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                    Address = b.Address,
+                    Phone = b.Phone,
+                    Note = b.Note,
+                    Status = b.Status,
+                    Longitude = b.LongItude,
+                    Latitude = b.Latitude,
+                    HelperName = b.Helper.User.Name,
+                    UserName = b.User.Name,
+                    ServiceName = b.Service.Name
+                });
+
+                return response.ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<BookingResponseDTO>();
+            }
+
+        }
+
+
+
+        public async Task<List<BookingResponseDTO>> GetAllBookingInHelper(int helperId)
+        {
+            try
+            {
+                var bookings = _unitOfWork.BookingRepository.GetAllBookingsWithOthers();
+                var result = bookings.Where(x => x.HelperId == helperId).ToList();
+                if (result.Count() <= 0)
+                {
+                    return new List<BookingResponseDTO>();
+                }
+
+                var response = result.Select(b => new BookingResponseDTO
+                {
+                    Id = b.Id,
+                    Price = b.Price,
+                    BookingDate = b.BookingDay.ToString("yyyy-mm-dd"),
+                    BookingTime = b.BookingDay.ToString("HH:mm:ss"),
+                    ServiceDate = b.ServiceDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                    Address = b.Address,
+                    Phone = b.Phone,
+                    Note = b.Note,
+                    Status = b.Status,
+                    Longitude = b.LongItude,
+                    Latitude = b.Latitude,
+                    HelperName = b.Helper.User.Name,
+                    UserName = b.User.Name,
+                    ServiceName = b.Service.Name
+                });
+
+                return response.ToList();
+            }
+            catch (Exception ex)
+            {
+                return new List<BookingResponseDTO>();
+            }
+
+        }
+
+
+
 
     }
 }
