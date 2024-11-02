@@ -22,7 +22,7 @@ namespace HomeBuddy.API.Controllers
             return Ok(result.Data);
         }
 
-        [HttpGet("userid/{userid}")]
+        [HttpGet("userid")]
         public async Task<IActionResult> GetChatFromUserId(int userid)
         {
             var result = await _chatService.GetChatFromUserId(userid);
@@ -30,7 +30,7 @@ namespace HomeBuddy.API.Controllers
             return Ok(result.Data);
         }
 
-        [HttpGet("chatid/{chatid}")]
+        [HttpGet("chatid")]
         public async Task<IActionResult> GetAllMessageFromChat(int chatid)
         {
             var result = await _chatService.GetAllMessageFromChat(chatid);
