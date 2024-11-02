@@ -90,7 +90,8 @@ namespace HomeBuddy.Service.Services
                 SenderId = c.SenderId,
                 ReceiverId = c.ReceiverId,
                 receiverName = c.SenderId == userid ? c.Receiver.Name : c.Sender.Name,
-
+                receiverImageUrl = c.SenderId == userid ? c.Receiver.Avatar : c.Sender.Avatar,
+                lastMessage = c.Messages.OrderByDescending(x => x.SentTime).FirstOrDefault().MessageText
             }).ToList();
             if (chatresponse == null || !chatresponse.Any())
             {
