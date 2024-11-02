@@ -224,22 +224,51 @@
                     </div>
                     <div class="form-group">
                         <label for="serviceDuration">Duration</label>
-                        <input type="text" class="form-control" name="Duration" required />
+                        <input type="number" class="form-control" name="Duration" required />
                     </div>
                     <div class="form-group">
-                        <label for="serviceHelper">Helper Name</label>
-                        <input type="text" class="form-control" name="HelperName" required />
+                        <label for="helperId">Helper ID</label>
+                        <input type="number" class="form-control" name="HelperId" required />
                     </div>
-                    <div class="form-group">
-                        <label for="serviceImage">Image</label>
-                        <input type="file" class="form-control-file" name="Image" required />
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Service</button>
                     </div>
-                    <button type="submit" class="btn btn-primary">Add Service</button>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-</div>
+    @section Scripts {
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('[data-toggle="modal"]').on('click', function () {
+                    $('#addServiceModal').show();
+                });
+
+                $('.close, .btn-secondary').on('click', function () {
+                    $('#addServiceModal').hide();
+                });
+
+                $('#addServiceModal form').on('submit', function (e) {
+                    e.preventDefault();
+
+                    var formData = new FormData(this);
+
+                    $.ajax({
+                        url: '@Url.Page("/ManagerPage/ServiceManagement", "AddService")',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            location.reload();
+                        },
+                        error: function () {
+                            alert("Failed to add service. Please try again.");
+                        }
+                    });
+                });
+            });
+        </script>
+    }
