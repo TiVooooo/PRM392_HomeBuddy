@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HomeBuddy.API.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class BookingController : ControllerBase
     {
@@ -28,13 +28,13 @@ namespace HomeBuddy.API.Controllers
         }
 
 
-        [HttpGet("/all/helper/{helperId}")]
+        [HttpGet("all/helper/{helperId}")]
         public async Task<IActionResult> GetAllBookingInHelper(int helperId)
         {
             return Ok(await _bookingService.GetAllBookingInHelper(helperId));
         }
 
-        [HttpGet("/user/{userId}")]
+        [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetAllBookingInUser(int userId)
         {
             return Ok(await _bookingService.GetAllBookingInUser(userId));

@@ -63,8 +63,11 @@ namespace HomeBuddy.Service.Services
                     Longitude = b.LongItude,
                     Latitude = b.Latitude,
                     HelperName = b.Helper.User.Name,
+                    HelperAvt = b.Helper.User.Avatar,
                     UserName = b.User.Name,
-                    ServiceName = b.Service.Name
+                    UserAvt = b.User.Avatar,
+                    ServiceName = b.Service.Name,
+                    Rating = b.Helper.Rating
                 });
 
                 return response.ToList();
@@ -99,8 +102,11 @@ namespace HomeBuddy.Service.Services
                     Longitude = booking.LongItude,
                     Latitude = booking.Latitude,
                     HelperName = booking.Helper.User.Name,
+                    HelperAvt = booking.Helper.User.Avatar,
                     UserName = booking.User.Name,
-                    ServiceName = booking.Service.Name
+                    UserAvt = booking.User.Avatar,
+                    ServiceName = booking.Service.Name,
+                    Rating = booking.Helper.Rating
                 };
 
                 return response;
@@ -160,7 +166,8 @@ namespace HomeBuddy.Service.Services
                                                HelperName = booking.Helper.User.Name,
                                                UserName = booking.User.Name,
                                                ServiceName = booking.Service.Name,
-                                               ServiceDate = booking.ServiceDate.ToString("yyyy-MM-dd HH:mm:ss")
+                                               ServiceDate = booking.ServiceDate.ToString("yyyy-MM-dd HH:mm:ss"),
+                                               Rating = booking.Helper.Rating
                                            });
 
                     return (BookingResponseDTO)response;
@@ -218,7 +225,8 @@ namespace HomeBuddy.Service.Services
                         Latitude = booking.Latitude,
                         HelperName = booking.Helper.User.Name,
                         UserName = booking.User.Name,
-                        ServiceName = booking.Service.Name
+                        ServiceName = booking.Service.Name,
+                        Rating = booking.Helper.Rating
                     };
 
                     return response;
@@ -289,8 +297,11 @@ namespace HomeBuddy.Service.Services
                     Longitude = b.LongItude,
                     Latitude = b.Latitude,
                     HelperName = b.Helper.User.Name,
+                    HelperAvt = b.Helper.User.Avatar,
                     UserName = b.User.Name,
-                    ServiceName = b.Service.Name
+                    UserAvt = b.User.Avatar,
+                    ServiceName = b.Service.Name,
+                    Rating = b.Helper.Rating
                 });
 
                 return response.ToList();
@@ -329,8 +340,11 @@ namespace HomeBuddy.Service.Services
                     Longitude = b.LongItude,
                     Latitude = b.Latitude,
                     HelperName = b.Helper.User.Name,
+                    HelperAvt = b.Helper.User.Avatar,
                     UserName = b.User.Name,
-                    ServiceName = b.Service.Name
+                    UserAvt = b.User.Avatar,
+                    ServiceName = b.Service.Name,
+                    Rating = b.Helper.Rating
                 });
 
                 return response.ToList();
