@@ -68,11 +68,14 @@ namespace HomeBuddy.Service.Services
         {
             var helper = _unitOfWork.CartRepository.GetAllCartWithOthers();
 
-            var helperInCart = await helper.FirstOrDefaultAsync(c => c.Id == cartID);
+            var helperInCart = helper.FirstOrDefault(c => c.Id == cartID);
 
             if (helperInCart != null && helperInCart.Service != null && helperInCart.Service.Helper != null && helperInCart.Service.Helper.User != null)
             {
-                return new BusinessResult(200, "Get helper address!", helperInCart.Service.Helper.User.Address);
+                return new BusinessResult(200, "Get helper address!", new
+                {
+                    address = helperInCart.Service.Helper.User.Address
+                });
             }
 
             return null;
