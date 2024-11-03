@@ -83,19 +83,21 @@ namespace HomeBuddy.Service.Services
 
         public async Task<IBusinessResult> GetChatFromUserId(int userid)
         {
-            var chat = await _unitOfWork.ChatRepository.GetAllAsync();
-            var chatresponse = chat.Where(x => x.SenderId == userid || x.ReceiverId == userid).ToList();
+            var chatresponse = await _unitOfWork.ChatRepository.GetChatFromUserId(userid).ToListAsync();
             var chatDto = chatresponse.Select(c => new ChatResponse
             {
                 Id = c.Id,
                 SenderId = c.SenderId,
                 ReceiverId = c.ReceiverId,
+                receiverName = c.SenderId == userid ? c.Receiver.Name : c.Sender.Name,
+                receiverImageUrl = c.SenderId == userid ? c.Receiver.Avatar : c.Sender.Avatar,
+                lastMessage = c.Messages.OrderByDescending(x => x.SentTime).FirstOrDefault().MessageText
             }).ToList();
             if (chatresponse == null || !chatresponse.Any())
             {
                 return new BusinessResult(Const.WARNING_NO_DATA, Const.WARNING_NO_DATA_MSG);
             }
-            return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, chatresponse);
+            return new BusinessResult(Const.SUCCESS_READ, Const.SUCCESS_READ_MSG, chatDto);
         }
 
         public async Task<IBusinessResult> GetAllMessageFromChat(int chatid)

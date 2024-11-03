@@ -23,5 +23,14 @@ namespace HomeBuddy.Data.Repository
                 .Include(x => x.Sender)
                 .Include(c=>c.Messages);
         }
+
+        public IQueryable<Chat> GetChatFromUserId(int userid)
+        {
+            return _context.Chats
+                .Include(x => x.Receiver)
+                .Include(x => x.Sender)
+                .Include(x => x.Messages)
+                .Where(c => c.ReceiverId == userid || c.SenderId == userid);
+        }
     }
 }

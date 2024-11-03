@@ -12,6 +12,8 @@ namespace HomeBuddy.Service.Model.ResponseDTO
         public int SenderId { get; set; }
         public int ReceiverId { get; set; }
         public string receiverName { get; set; }
+        public string receiverImageUrl { get; set; }
+        public string lastMessage { get; set; }
         public List<MessageResponse> Messages { get; set; }
     }
 }
