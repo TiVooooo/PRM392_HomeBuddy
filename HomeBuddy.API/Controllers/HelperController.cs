@@ -6,7 +6,7 @@ using System.ComponentModel.Design;
 namespace HomeBuddy.API.Controllers
 {
     [ApiController]
-    [Route("Helper")]
+    [Route("api/[controller]")]
     public class HelperController : ControllerBase
     {
         private readonly IHelperService _helpService;
@@ -36,6 +36,14 @@ namespace HomeBuddy.API.Controllers
         {
             var result = await _helpService.GetById(id);
             return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("address/{cartId}")]
+        public async Task<IActionResult> GetAddressByCartId(int cartId)
+        {
+            var result = _helpService.GetHelperAddressThroughCart(cartId);
+            return Ok(result.Result.Data);
         }
     }
 }

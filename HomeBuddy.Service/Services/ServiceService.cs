@@ -4,6 +4,8 @@ using HomeBuddy.Data.Models;
 using HomeBuddy.Data.UnitOfWork;
 using HomeBuddy.Service.Base;
 using HomeBuddy.Service.Model;
+using HomeBuddy.Service.Model.ResponseDTO;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations.Operations;
 using System;
 using System.Collections.Generic;
@@ -19,6 +21,7 @@ namespace HomeBuddy.Service.Services
         Task<List<ServiceModel>> GetAll();
         Task<IBusinessResult> Update(int id, CreateServiceDTO package);
         Task<IBusinessResult> Save(CreateServiceDTO package);
+        Task<List<RelativeService>> GetRelativeServices(int id);
 
     }
 
@@ -158,5 +161,35 @@ namespace HomeBuddy.Service.Services
             }
         }
 
+        public async Task<List<RelativeService>> GetRelativeServices(int id)
+        {
+            try
+            {
+                var mainService = _unitOfWork.ServiceRepository.GetAll();
+                if (mainService == null || !mainService.Any())
+                {
+                    return new List<RelativeService>();
+                }
+
+                var relatedServices = mainService.Where(s => s.Id != id)
+                    .OrderBy(s => Guid.NewGuid())
+                    .Take(5)
+                    .Select(s => new RelativeService
+                    {
+                        Id = s.Id,
+                        Name = s.Name,
+                        Price = s.Price,
+                        HelperId = s.HelperId,
+                        Image = s.Image,
+                    })
+                    .ToList();
+
+                return relatedServices;
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

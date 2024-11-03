@@ -72,6 +72,11 @@ namespace HomeBuddy.Data.Base
         {
             return await _context.Set<T>().ToListAsync();
         }
+
+        public async Task<IQueryable<T>> GetAllAsyncIQueryable()
+        {
+            return _context.Set<T>(); ;
+        }
         public List<T> GetAll(params Expression<Func<T, object>>[] includes)
         {
             var query = _context.Set<T>().AsQueryable();

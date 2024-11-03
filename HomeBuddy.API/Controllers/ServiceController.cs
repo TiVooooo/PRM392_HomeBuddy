@@ -38,5 +38,11 @@ namespace HomeBuddy.API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("relative-services/{serviceId}")]
+        public async Task<IActionResult> GetRelativeServices(int serviceId)
+        {
+            return Ok(_serviceService.GetRelativeServices(serviceId));
+        }
+
     }
 }
