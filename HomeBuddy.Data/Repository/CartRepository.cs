@@ -20,6 +20,9 @@ namespace HomeBuddy.Data.Repository
         public IQueryable<Cart> GetAllCartWithOthers()
         {
             return _context.Carts
+                .Include(b => b.Service)
+                    .ThenInclude(b => b.Helper)
+                        .ThenInclude(b => b.User)
                 .Include(b => b.Service);
         }
     }

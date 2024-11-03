@@ -16,7 +16,7 @@ namespace HomeBuddy.Service.Model.RequestDTO
 
         public string Note { get; set; }
 
-        public DateTime BookingDay { get; set; }
+        public DateTime? BookingDay { get; set; }
 
         public DateTime ServiceDate { get; set; }
 

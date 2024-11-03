@@ -1,6 +1,8 @@
 ﻿using HomeBuddy.Common;
+using HomeBuddy.Data.Models;
 using HomeBuddy.Data.UnitOfWork;
 using HomeBuddy.Service.Base;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +13,10 @@ namespace HomeBuddy.Service.Services
 {
     public interface IHelperService
     {
-        public Task<IBusinessResult> GetAll();
-        public Task<IBusinessResult> GetById(int id);
+        Task<IBusinessResult> GetAll();
+        Task<IBusinessResult> GetById(int id);
         Task<IBusinessResult> ChangeStatus(int helperId);
+        Task<IBusinessResult> GetHelperAddressThroughCart(int cartID);
         
     }
     public class HelperService : IHelperService
@@ -59,6 +62,20 @@ namespace HomeBuddy.Service.Services
             var helper = await _unitOfWork.HelperRepository.GetByIdAsync(id);
 
             return new BusinessResult(200, "Get helper!", helper);
+        }
+
+        public async Task<IBusinessResult> GetHelperAddressThroughCart(int cartID)
+        {
+            var helper = _unitOfWork.CartRepository.GetAllCartWithOthers();
+
+            var helperInCart = await helper.FirstOrDefaultAsync(c => c.Id == cartID);
+
+            if (helperInCart != null && helperInCart.Service != null && helperInCart.Service.Helper != null && helperInCart.Service.Helper.User != null)
+            {
+                return new BusinessResult(200, "Get helper address!", helperInCart.Service.Helper.User.Address);
+            }
+
+            return null;
         }
     }
 }

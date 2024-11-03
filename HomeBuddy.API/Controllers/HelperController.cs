@@ -37,5 +37,13 @@ namespace HomeBuddy.API.Controllers
             var result = await _helpService.GetById(id);
             return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
         }
+
+        [AllowAnonymous]
+        [HttpGet("address/{cartId}")]
+        public async Task<IActionResult> GetAddressByCartId(int cartId)
+        {
+            var result = await _helpService.GetHelperAddressThroughCart(cartId);
+            return StatusCode((int)result.Status, result.Data == null ? result.Message : result.Data);
+        }
     }
 }
