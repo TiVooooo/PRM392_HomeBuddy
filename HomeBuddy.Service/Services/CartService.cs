@@ -13,6 +13,7 @@ namespace HomeBuddy.Service.Services
     public interface ICartService
     {
         Task<(IEnumerable<CartResponseDTO>, double)> GetCartItemsAsync(int userId);
+        Task<CartResponseDTO> AddToCartAsync(int userId, int serviceId, int quantity);
         Task<bool> RemoveCartItemAsync(int cartId);
     }
     public class CartService : ICartService
@@ -22,6 +23,47 @@ namespace HomeBuddy.Service.Services
         {
             _unitOfWork = unitOfWork;
         }
+
+        public async Task<CartResponseDTO> AddToCartAsync(int userId, int serviceId, int quantity)
+        {
+            // Check if the cart item already exists for the user and service
+            var existingCart = await _unitOfWork.CartRepository.GetAllCartWithOthers()
+                .FirstOrDefaultAsync(cart => cart.UserId == userId && cart.ServiceId == serviceId);
+
+            if (existingCart != null)
+            {
+                // If the item exists, update the quantity
+                existingCart.Quantity += quantity;
+                _unitOfWork.CartRepository.Update(existingCart);
+            }
+            else
+            {
+                // If the item does not exist, create a new cart item
+                var newCart = new Cart
+                {
+                    UserId = userId,
+                    ServiceId = serviceId,
+                    Quantity = quantity
+                };
+                await _unitOfWork.CartRepository.CreateAsync(newCart);
+            }
+
+            // Retrieve updated cart item for response
+            var updatedCart = await _unitOfWork.CartRepository.GetAllCartWithOthers()
+                .FirstOrDefaultAsync(cart => cart.UserId == userId && cart.ServiceId == serviceId);
+
+            return new CartResponseDTO
+            {
+                CartId = updatedCart.Id,
+                ServiceName = updatedCart.Service.Name,
+                ServiceImage = updatedCart.Service.Image,
+                ServicePrice = updatedCart.Service.Price,
+                Quantity = updatedCart.Quantity,
+                Subtotal = updatedCart.Service.Price * updatedCart.Quantity
+            };
+        }
+
+
         public async Task<(IEnumerable<CartResponseDTO>, double)> GetCartItemsAsync(int userId)
         {
             var carts = await _unitOfWork.CartRepository.GetAllCartWithOthers()

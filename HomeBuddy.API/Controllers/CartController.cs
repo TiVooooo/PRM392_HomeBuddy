@@ -14,6 +14,14 @@ namespace HomeBuddy.API.Controllers
             _cartService = cartService;
         }
 
+        [HttpPost("{userId}/{serviceId}/{quantity}")]
+        public async Task<IActionResult> GetCartItems(int userId, int serviceId, int quantity)
+        {
+            var rs = await _cartService.AddToCartAsync(userId, serviceId, quantity);
+
+            return Ok();
+        }
+
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetCartItems(int userId)
         {
